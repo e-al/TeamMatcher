@@ -6,6 +6,9 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(TeamMatcher.default_config)
 app.config.from_pyfile('teammatcher_config.py', silent=True)
 
+# this thing is blatantly copied directly from the tutorial, such security
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
 mysql = MySQL()
 mysql.init_app(app)
 
