@@ -31,7 +31,7 @@ class Student(object):
         return False
 
     @staticmethod
-    def add(username, password):
+    def add(username, password, name):
         """This method inserts the new user (student) in the the DB"""
 
         if Student.exists(username):
@@ -39,8 +39,8 @@ class Student(object):
             raise RuntimeError('User with this email exists')
         db = mysql.get_db()
         cur = db.cursor()
-        cur.execute("""INSERT INTO Student(email, password) VALUES(%s, %s)""",
-                    (username, password))
+        cur.execute("""INSERT INTO Student(email, password, name)
+                    VALUES(%s, %s, %s)""", (username, password, name))
 
         db.commit()
 

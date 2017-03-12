@@ -26,7 +26,8 @@ def signUp():
             # add the user into the database, store the session and redirect
             try:
                 Student.add(request.form['username'],
-                            request.form['password'])
+                            request.form['password'],
+                            request.form['name'])
                 session['username'] = request.form['username']
                 return redirect(url_for('index'))
             except RuntimeError as err:
