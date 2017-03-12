@@ -7,9 +7,11 @@ DO NOT add that file to the VCS as it is going to be deployment-dependent
 
 """
 
-DBNAME='teammatcher'
-DBUSERNAME='admin'
-DBPASSWORD='admin' # some real security here
+MYSQL_DATABASE_USER='admin'
+MYSQL_DATABASE_PASSWORD='admin' # some real security here
+MYSQL_DATABASE_DB='TeamMatcher'
+MYSQL_DATABASE_HOST='localhost'
+MYSQL_SCHEMA_FILE='schema.sql'
 
 
 
