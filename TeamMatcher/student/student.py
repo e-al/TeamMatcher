@@ -39,7 +39,7 @@ class Student(object):
             raise RuntimeError('User with this email exists')
         db = mysql.get_db()
         cur = db.cursor()
-        cur.execute("""INSERT INTO Student(email, password) VALUES(%s, %s)""",\
+        cur.execute("""INSERT INTO Student(email, password) VALUES(%s, %s)""",
                     (username, password))
 
         db.commit()
