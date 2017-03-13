@@ -14,14 +14,17 @@
 		<th>Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody>{% for project in info %}
       <tr>
-        <td>TeamMatcher</td>
-        <td>4</td>
-        <td>A web application that matches project teams</td>
-        <th>On-going</th>
-        <td><a href="/remove">Remove</td>
+        <td>{{ project.name }}</td>
+        <td>{{ project.max_capacity}}</td>
+        <td>{{ project.description}}</td>
+        <th>{{ project.status}}</th>
+        <td><a href="/remove">Remove</a>
+        <!-- href="/{{ project. name }}_remove"
+        	Could use sth like this to specify a project-->
       </tr>
+     {% endfor %}
     </tbody>
   </table>
   </div>
