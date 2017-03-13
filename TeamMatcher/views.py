@@ -10,6 +10,13 @@ def index():
 
     return redirect(url_for('login'))
 
+@app.route('/home')
+def index1():
+    if 'username' in session:
+        return render_template('home.html')
+
+    return redirect(url_for('login'))
+
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signUp():
@@ -33,7 +40,7 @@ def signUp():
             except RuntimeError as err:
                 error = err
 
-    return render_template('signup.html', error)
+    return render_template('signup.html', error = error)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -52,7 +59,7 @@ def login():
         else:
             error = 'Invalid password'
 
-    return render_template('login.html', error=error)
+    return render_template('login.html', error = error)
 
 @app.route('/logout')
 def logout():

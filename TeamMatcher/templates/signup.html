@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block navbarright %}
+<li><a href="login">Log In</a></li>
+<li><a href="signup">Sign Up</a></li>
+{% endblock %}
+
+{% block container%}
+
+
+<html lang="en">
+  <head>
+   
+    <title>Sign up</title>
+    <link href="{{ url_for('static', filename='css/signup.css') }}" rel="stylesheet">
+	  
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+ 
+ 
+      <div class="jumbotron">
+        <h1>TeamMatcher</h1>
+        <form class="form-signin">
+        <label for="name" class="sr-only">Name</label>
+        <input type="name" name="name" id="name" class="form-control" placeholder="name" required autofocus>
+        <label for="username" class="sr-only">Email address</label>
+        <input type="email" name="username" id="username" class="form-control" placeholder="Email address" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+         
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">Sign up</button>
+      </form>
+      </div>
+
+    </div>
+  </body>
+  
+</html>
+
+
+{% endblock %}
