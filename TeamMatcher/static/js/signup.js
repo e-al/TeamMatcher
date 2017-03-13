@@ -7,7 +7,7 @@ $(document).ready(function() {
             type: 'POST',
             success: function(response) {
 				if (response.redirect){
-                	window.location.href = response.redirect;
+                	window.location = response.redirect;
 				}
 				else{
 				    document.write(response['form'])
@@ -26,7 +26,7 @@ $(document).ready(function() {
             type: 'POST',
             success: function(response) {
 				if (response.redirect){
-                	window.location.href = response.redirect;
+                	window.location = response.redirect;
 				}
 				else{
                     document.write(response['form'])
