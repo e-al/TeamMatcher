@@ -45,14 +45,13 @@ def addproject():
 def profile():
     error = None
     info = None
-    if request.method == 'GET':
-        if 'username' in session:
-            username = session['username']
+    if 'username' in session:
+        username = session['username']
+        if request.method == 'GET':
             info = Student.retrieve_info(username)
-    if request.method == 'POST':
-        # add updating student info here
-        pass
-    return render_template('profile.html', error, info)
+        if request.method == 'POST':
+            info = Student.update_info(username, **request.get_json())
+    return render_template('profile.html', error=error, info=info)
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signUp():

@@ -58,8 +58,13 @@ class Student(object):
         db.commit()
 
     @staticmethod
-    def update_info(**kwargs):
-        """This method updates student info in the DB"""
+    def update_info(username, **kwargs):
+        """This method updates student info in the DB
+
+            :param username Username of student whose profile we want to update
+            :param kwargs A dictionary with new profile info
+            :returns A dictionary with new profile info
+        """
 
         kw = kwargs
         db = mysql.get_db()
@@ -67,13 +72,17 @@ class Student(object):
         cur.execute("""
             UPDATE Student
             SET Name=%s, GPA=%s, School=%s, Major=%s, Year=%s
+            WHERE Email=%s
         """, (kw['name'],
               kw['gpa'],
               kw['school'],
               kw['major'],
-              kw['year']))
+              kw['year']),
+              username)
 
         db.commit()
+        kw['email'] = username
+        return kw
 
     @staticmethod
     def retrieve_info(username):
