@@ -17,6 +17,33 @@ def index1():
 
     return redirect(url_for('login'))
 
+@app.route('/teams')
+def teams():
+    return render_template('teams.html')
+
+@app.route('/projects')
+def projects():
+    return render_template('projects.html')
+
+@app.route('/searchteam')
+def searchteam():
+    return render_template('searchteam.html')
+
+@app.route('/searchproject')
+def searchproject():
+    return render_template('searchproject.html')
+
+@app.route('/addteam')
+def addteam():
+    return render_template('addteam.html')
+
+@app.route('/addproject')
+def addproject():
+    return render_template('addproject.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signUp():

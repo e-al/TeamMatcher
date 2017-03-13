@@ -6,7 +6,7 @@ $(document).ready(function() {
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
-                console.log(response);
+                window.location = response
             },
             error: function(error) {
                 console.log(error);
@@ -23,7 +23,7 @@ $(document).ready(function() {
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
-                console.log(response);
+                window.location = response
             },
             error: function(error) {
                 console.log(error);
