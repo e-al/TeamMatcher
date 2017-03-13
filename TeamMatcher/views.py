@@ -45,7 +45,8 @@ def login():
     if request.method == 'POST':
         if not Student.exists(request.form['username']):
             error = 'User with this username does not exist'
-        elif Student.verify(request.form['username'], request.form['password']):
+        elif Student.verify(request.form['username'],
+                            request.form['password']):
             session['username'] = request.form['username']
             return redirect(url_for('index'))
         else:
@@ -57,3 +58,10 @@ def login():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/updateStudentInfo')
+def update_student_info():
+    """This is called when we need to update any student info"""
+
+    pass
+
