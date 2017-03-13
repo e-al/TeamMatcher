@@ -10,7 +10,7 @@ $(document).ready(function() {
                 	window.location.href = response.redirect;
 				}
 				else{
-				    document.write(response.form)
+				    document.write(response['form'])
 				}
 			}
     });
@@ -29,7 +29,7 @@ $(document).ready(function() {
                 	window.location.href = response.redirect;
 				}
 				else{
-                    document.write(response.form)
+                    document.write(response['form'])
 				}
 			}
             
