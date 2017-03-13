@@ -1,11 +1,28 @@
-<style type="text/css">
 
-</style>
 {% extends 'home.html' %}
  
 {% block container %}
   <div class="top-pad">
-    <h1>Projects</h1>
+    <h1>My Projects</h1>
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Max. Capacity</th>
+        <th>Description</th>
+        <th>Status</th>
+		<th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TeamMatcher</td>
+        <td>4</td>
+        <td>A web application that matches project teams</td>
+        <th>On-going</th>
+        <td><a href="/remove">Remove</td>
+      </tr>
+    </tbody>
+  </table>
   </div>
-  <!--table of projects with database-->
 {% endblock %}
