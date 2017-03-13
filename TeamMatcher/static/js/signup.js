@@ -6,11 +6,13 @@ $(document).ready(function() {
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
-                window.location = response
-            },
-            error: function(error) {
-                console.log(error);
-            }   
+				if (response.redirect){
+                	window.location.href = response.redirect;
+				}
+				else{
+					$('#myform').replaceWith(response.form);
+				}
+			}
     });
     });
 });
@@ -23,11 +25,14 @@ $(document).ready(function() {
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
-                window.location = response
-            },
-            error: function(error) {
-                console.log(error);
-            }   
+				if (response.redirect){
+                	window.location.href = response.redirect;
+				}
+				else{
+					$('#myform').replaceWith(response.form);
+				}
+			}
+            
     });
     });
 });
