@@ -17,7 +17,7 @@ CREATE TABLE Student(
         School varchar(100),
         Year  int(4),
         Major varchar(100),
-        GPA decimal(10,0),
+        GPA float(3,2),
         Likes int(11)
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE Project(
         Name varchar(100),
 	      Description varchar(255),
         Max_Capacity int(11),
-        Status varchar(100),
+        Status varchar(100) NOT NULL DEFAULT 'Created',
         Team_Name varchar(100),
         CreatedByStudentId int(11),
         FOREIGN KEY (CreatedByStudentId) REFERENCES Student(Student_Id)
