@@ -9,6 +9,18 @@ CREATE TABLE Class(
     	Name varchar(100)
     	);
 
+CREATE TABLE Student(
+        Student_Id int(11) AUTO_INCREMENT PRIMARY KEY,
+        Email varchar(100),
+        Password varchar(100),
+        Name varchar(100),
+        School varchar(100),
+        Year  int(4),
+        Major varchar(100),
+        GPA decimal(10,0),
+        Likes int(11)
+);
+
 CREATE TABLE Project(
         Project_Id int(11) AUTO_INCREMENT PRIMARY KEY,
         Name varchar(100),
@@ -20,7 +32,6 @@ CREATE TABLE Project(
         FOREIGN KEY (CreatedByStudentId) REFERENCES Student(Student_Id)
         );
 
-
 CREATE TABLE ProjectCategory(
         Project_Category_Id int(11) AUTO_INCREMENT PRIMARY KEY,
         Name varchar(100)
@@ -31,20 +42,6 @@ CREATE TABLE Skill(
         Skill_Id int(11) AUTO_INCREMENT PRIMARY KEY,
         Name varchar(100)
     	);
-
-
-CREATE TABLE Student(
-        Student_Id int(11) AUTO_INCREMENT PRIMARY KEY,
-        Email varchar(100),
-        Password varchar(100),
-        Name varchar(100),
-        School varchar(100),
-        Year  int(4),
-        Major varchar(100),
-        GPA decimal(10,0),
-        Likes int(11)
-        );
-
 
 CREATE TABLE Team(
         Team_Id int(11) AUTO_INCREMENT PRIMARY KEY,
