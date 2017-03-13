@@ -11,7 +11,7 @@ def index():
     return redirect(url_for('login'))
 
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup', methods=['POST', 'GET'])
 def signUp():
     """Show sign up page or sign the student up"""
     if 'username' in session:
@@ -35,7 +35,7 @@ def signUp():
 
     return render_template('signup.html', error)
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     """Try to login the user"""
     if 'username' in session:
