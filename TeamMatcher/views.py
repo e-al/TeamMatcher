@@ -65,7 +65,7 @@ def addproject():
     if 'username' in session:
         if request.method == 'POST':
             response = dict()
-            project_id = Project.add(session['username'], **request.get_json())
+            project_id = Project.add(session['username'], **request.form)
             response['redirect'] = url_for('projects')
             response['project_id'] = project_id
             return jsonify(response)
@@ -74,17 +74,19 @@ def addproject():
 
     return render_template('addproject.html', error=error)
 
-@app.route('/profile')
+@app.route('/profile', methods=['POST', 'GET'])
 def profile():
-    error = None
-    info = None
     if 'username' in session:
         username = session['username']
         if request.method == 'GET':
             info = Student.retrieve_info(username)
+            return render_template('profile.html', info=info)
         if request.method == 'POST':
-            info = Student.update_info(username, **request.get_json())
-    return render_template('profile.html', error=error, info=info)
+            Student.update_info(username, **request.form)
+            return json.dumps({'success:True'}), 200, \
+                   {'ContentType': 'application/json'}
+
+    return redirect(url_for('login'))
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signUp():
