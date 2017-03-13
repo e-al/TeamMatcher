@@ -4,12 +4,14 @@ from TeamMatcher import app
 from TeamMatcher.student.student import Student
 from TeamMatcher.project.project import Project
 
+
 @app.route('/')
 def index():
     if 'username' in session:
         return render_template('home.html')
 
     return redirect(url_for('login'))
+
 
 @app.route('/home')
 def index1():
@@ -18,9 +20,11 @@ def index1():
 
     return redirect(url_for('login'))
 
+
 @app.route('/teams')
 def teams():
     return render_template('teams.html')
+
 
 @app.route('/projects', methods=['POST', 'GET'])
 def projects():
@@ -45,17 +49,21 @@ def projects():
 
     return render_template('projects.html', error=error, projects=projects)
 
+
 @app.route('/searchteam')
 def searchteam():
     return render_template('searchteam.html')
+
 
 @app.route('/searchproject')
 def searchproject():
     return render_template('searchproject.html')
 
+
 @app.route('/addteam')
 def addteam():
     return render_template('addteam.html')
+
 
 @app.route('/addproject', methods=['POST', 'GET'])
 def addproject():
@@ -74,19 +82,21 @@ def addproject():
 
     return render_template('addproject.html', error=error)
 
+
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():
     if 'username' in session:
         username = session['username']
         if request.method == 'GET':
             info = Student.retrieve_info(username)
-            return render_template('profile.html', info=info)
+            return render_template('profile.html', error=None, info=info)
         if request.method == 'POST':
             Student.update_info(username, **request.form)
             return json.dumps({'success:True'}), 200, \
                    {'ContentType': 'application/json'}
 
     return redirect(url_for('login'))
+
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signUp():
@@ -120,6 +130,7 @@ def signUp():
     response['form'] = response_html
     return jsonify(response)
 
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     """Try to login the user"""
@@ -146,6 +157,7 @@ def login():
 
     response['form'] = response_html
     return jsonify(response)
+
 
 @app.route('/logout')
 def logout():
