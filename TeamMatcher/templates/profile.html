@@ -2,50 +2,46 @@
 
 {% block container %}
 <div class="top-pad">
-	<form class="form-horizontal" role="form">
+	<form class="form-horizontal">
 		<h2>Update Profile</h2>
 		<div class="form-group">
 			<label for="name" class="col-sm-3 control-label">Name</label>
 			<div class="col-sm-9">
-				<input type="text" id="name" placeholder="Full Name" class="form-control" autofocus>
+				<input type="text" id="name" placeholder="Name" value="{{info.name}}" class="form-control" autofocus>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="email" class="col-sm-3 control-label">Email</label>
 			<div class="col-sm-9">
-				<input type="email" id="email" placeholder="Email" class="form-control">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="password" class="col-sm-3 control-label">Password</label>
-			<div class="col-sm-9">
-				<input type="password" id="password" placeholder="Password" class="form-control">
+				<input type="email" disabled id="email" placeholder="Email" value="{{info.email}}" class="form-control">
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="year" class="col-sm-3 control-label">Year</label>
 			<div class="col-sm-9">
-				<select id="year" class="form-control">
-					<option>Freshmen</option>
-					<option>Sophomore</option>
-					<option>Junior</option>
-					<option>Senior</option>
+				<select id="year" class="form-control" value = {{info.Year}}>
+					<option selected disabled>Choose here</option>
+					<option value="0">Freshmen</option>
+					<option value="1">Sophomore</option>
+					<option value="2">Junior</option>
+					<option value="3">Senior</option>
 				</select>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="school" class="col-sm-3 control-label">School</label>
 			<div class="col-sm-9">
-				<select id="school" class="form-control">
-					<option>UIUC</option>
-					<option>other</option>
+				<select id="school" class="form-control" value = {{info.School}}>
+					<option selected disabled>Choose here</option>
+					<option value="0">UIUC</option>
+					<option value="1">other</option>
 				</select>
 			</div>
 		</div> <!-- /.form-group -->
 		<div class="form-group">
 			<label class="control-label col-sm-3">GPA</label>
 			<div class="col-sm-6">
-						<input type="number" id="gpa" placeholder="GPA" class="form-control">
+						<input type="number" step="0.01" id="gpa" placeholder="GPA" value="{{info.GPA}}" class="form-control">
 			</div>
 		</div> <!-- /.form-group -->
 		<div class="form-group">
@@ -57,7 +53,7 @@
 
 		<div class="form-group">
 			<div class="col-sm-9 col-sm-offset-3">
-				<button type="updatestudentinfo" class="btn btn-primary btn-block">Update</button>
+				<button id="updatestudentinfo" class="btn btn-primary btn-block">Update</button>
 			</div>
 		</div>
 	</form> <!-- /form -->
