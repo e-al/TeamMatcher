@@ -1,4 +1,4 @@
-from flask import request, render_template, session, redirect, url_for
+from flask import request, render_template, session, redirect, url_for, jsonify
 from TeamMatcher import app
 from TeamMatcher.student.student import Student
 
@@ -22,8 +22,9 @@ def index1():
 def signUp():
     """Show sign up page or sign the student up"""
     if 'username' in session:
-        redirect(url_for('index'))
+        return redirect(url_for('index'))
 
+    response = dict()
     error = None
     # sign the user up and redirect to the main page
     if request.method == 'POST':
@@ -36,11 +37,13 @@ def signUp():
                             request.form['password'],
                             request.form['name'])
                 session['username'] = request.form['username']
-                return redirect(url_for('index'))
+                response['redirect'] = url_for('index')
+                return jsonify(response)
             except RuntimeError as err:
                 error = err
 
-    return render_template('signup.html', error = error)
+    response['form'] = render_template('signup.html', error=error)
+    return jsonify(response)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -48,6 +51,7 @@ def login():
     if 'username' in session:
         return redirect(url_for('index'))
 
+    response = dict()
     error = None
     if request.method == 'POST':
         if not Student.exists(request.form['username']):
@@ -55,11 +59,13 @@ def login():
         elif Student.verify(request.form['username'],
                             request.form['password']):
             session['username'] = request.form['username']
-            return redirect(url_for('index'))
+            response['redirect'] = url_for('index')
+            return jsonify(response)
         else:
             error = 'Invalid password'
 
-    return render_template('login.html', error = error)
+    response['form'] = render_template('login.html', error=error)
+    return jsonify(response)
 
 @app.route('/logout')
 def logout():
