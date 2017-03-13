@@ -69,7 +69,7 @@ def signUp():
             except RuntimeError as err:
                 error = err
 
-    response_html = render_template('login.html', error=error)
+    response_html = render_template('signup.html', error=error)
     # if we just access the link not through the button click
     if request.method == 'GET':
         return response_html
