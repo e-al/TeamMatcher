@@ -78,18 +78,25 @@ class Student(object):
     @staticmethod
     def retrieve_info(username):
         """This method retrieves the info about the student in the DB
-        It returns Student object that can later be converted to JSON(if needed)
+        It returns the dictionary containing the fields of Student class
         """
 
         db = mysql.get_db()
         cur = db.cursor()
         cur.execute("""
-            SELECT () FROM Student
+            SELECT (Name, GPA, School, Major, Year) FROM Student
             WHERE Email=%s
         """, (username,))
 
+        tup = cur.fetchone()
+        res = dict()
+        res['name'] = tup[0]
+        res['gpa'] = tup[1]
+        res['school'] = tup[2]
+        res['major'] = tup[3]
+        res['year'] = tup[4]
 
-
+        return res
 
     @staticmethod
     def update_skill(username, skill, level):
