@@ -13,12 +13,14 @@
       </tr>
     </thead>
     <tbody>
+     {% for project in info %}
       <tr>
-        <td>TeamMatcher</td>
-        <td>4</td>
-        <td>A web application that matches project teams</td>
-        <th>On-going</th>
+        <td>{{ project.name }}</td>
+        <td>{{ project.max_capacity}}</td>
+        <td>{{ project.description}}</td>
+        <th>{{ project.status}}</th>
       </tr>
+     {% endfor %}
     </tbody>
   </table>
   </div>
