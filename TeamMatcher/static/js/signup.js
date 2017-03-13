@@ -40,13 +40,11 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#updatestudentinfo').click(function() {
 
-        var formData = JSON.stringify($('form').serializeArray());
+        //var formData = JSON.stringify($('form').serializeArray());
         $.ajax({
             url: '/profile',
-            data: formData,
+            data:  $('form').serialize(),
             type: 'POST',
-            dataType: "json",
-            contentType : "application/json",
             success: function(response) {
 				if (response.redirect){
                 	window.location = response.redirect;
