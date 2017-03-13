@@ -39,7 +39,7 @@ CREATE TABLE Student(
         Password varchar(100),
         Name varchar(100),
         School varchar(100),
-        Year  year(4),
+        Year  int(4),
         Major varchar(100),
         GPA decimal(10,0),
         Likes int(11)
