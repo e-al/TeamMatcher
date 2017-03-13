@@ -69,16 +69,16 @@ class Student(object):
         kw = kwargs
         db = mysql.get_db()
         cur = db.cursor()
+        #TODO: add major later
         cur.execute("""
             UPDATE Student
-            SET Name=%s, GPA=%s, School=%s, Major=%s, Year=%s
+            SET Name=%s, GPA=%s, School=%s, Year=%s
             WHERE Email=%s
         """, (kw['name'],
               kw['gpa'],
               kw['school'],
-              kw['major'],
-              kw['year']),
-              username)
+              kw['year'],
+              username))
 
         db.commit()
         kw['email'] = username
