@@ -84,7 +84,7 @@ class Student(object):
         db = mysql.get_db()
         cur = db.cursor()
         cur.execute("""
-            SELECT Name, GPA, School, Major, Year FROM Student
+            SELECT Name, GPA, School, Major, Year, Email FROM Student
             WHERE Email=%s
         """, (username,))
 
@@ -95,6 +95,7 @@ class Student(object):
         res['school'] = tup[2]
         res['major'] = tup[3]
         res['year'] = tup[4]
+        res['email'] = tup[5]
 
         return res
 
