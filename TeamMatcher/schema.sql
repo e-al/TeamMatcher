@@ -12,10 +12,12 @@ CREATE TABLE Class(
 CREATE TABLE Project(
         Project_Id int(11) AUTO_INCREMENT PRIMARY KEY,
         Name varchar(100),
-	    Description varchar(255),
+	      Description varchar(255),
         Max_Capacity int(11),
         Status varchar(100),
-        Team_Name varchar(100)
+        Team_Name varchar(100),
+        CreatedByStudentId int(11),
+        FOREIGN KEY (CreatedByStudentId) REFERENCES Student(Student_Id)
         );
 
 
@@ -110,3 +112,4 @@ CREATE TABLE AvailableTime(
     	FOREIGN KEY (Team_Id) REFERENCES Team(Team_Id),
         FOREIGN KEY (Student_Id) REFERENCES Student(Student_Id)
         );
+
