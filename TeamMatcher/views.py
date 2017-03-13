@@ -43,7 +43,16 @@ def addproject():
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    error = None
+    info = None
+    if request.method == 'GET':
+        if 'username' in session:
+            username = session['username']
+            info = Student.retrieve_info(username)
+    if request.method == 'POST':
+        # add updating student info here
+        pass
+    return render_template('profile.html', error, info)
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signUp():
