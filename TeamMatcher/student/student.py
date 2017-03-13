@@ -20,7 +20,7 @@ class Student(object):
         cur = mysql.get_db().cursor()
         cur.execute("""
             SELECT * FROM Student
-            WHERE email = %s AND passwd = %s
+            WHERE Email = %s AND Password = %s
         """, (username, password))
         if cur.fetchone():
             return True
@@ -34,7 +34,7 @@ class Student(object):
         cur = mysql.get_db().cursor()
         cur.execute("""
             SELECT * FROM Student
-            WHERE email = %s
+            WHERE Email = %s
         """, (username,))
         if cur.fetchone():
             return True
@@ -51,7 +51,7 @@ class Student(object):
         db = mysql.get_db()
         cur = db.cursor()
         cur.execute("""
-            INSERT INTO Student(email, password, name)
+            INSERT INTO Student(Email, Password, Name)
             VALUES(%s, %s, %s)
         """, (username, password, name))
 
@@ -85,7 +85,7 @@ class Student(object):
         cur = db.cursor()
         cur.execute("""
             SELECT () FROM Student
-            WHERE email=%s
+            WHERE Email=%s
         """, (username,))
 
 
