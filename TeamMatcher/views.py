@@ -1,4 +1,5 @@
 from flask import request, render_template, session, redirect, url_for, jsonify
+import json
 from TeamMatcher import app
 from TeamMatcher.student.student import Student
 from TeamMatcher.project.project import Project
@@ -21,7 +22,7 @@ def index1():
 def teams():
     return render_template('teams.html')
 
-@app.route('/projects')
+@app.route('/projects', methods=['POST', 'GET'])
 def projects():
     """Lists the projects the student is involved in
 
@@ -32,6 +33,13 @@ def projects():
     projects = None
 
     if 'username' in session:
+        if request.method == 'POST' and 'remove_project' in request.values:
+            Project.remove(request.values['remove_project'])
+            # just return success code without redirecting
+            # client-side js code can then remove the project row
+            return json.dumps({'success:True'}), 200, \
+                   {'ContentType': 'application/json'}
+
         username = session['username']
         projects = Project.get_for_student(username)
 
