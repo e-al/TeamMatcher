@@ -69,7 +69,12 @@ def signUp():
             except RuntimeError as err:
                 error = err
 
-    response['form'] = render_template('signup.html', error=error)
+    response_html = render_template('login.html', error=error)
+    # if we just access the link not through the button click
+    if request.method == 'GET':
+        return response_html
+
+    response['form'] = response_html
     return jsonify(response)
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -91,7 +96,12 @@ def login():
         else:
             error = 'Invalid password'
 
-    response['form'] = render_template('login.html', error=error)
+    response_html = render_template('login.html', error=error)
+    # if we just access the link not through the button click
+    if request.method == 'GET':
+        return response_html
+
+    response['form'] = response_html
     return jsonify(response)
 
 @app.route('/logout')

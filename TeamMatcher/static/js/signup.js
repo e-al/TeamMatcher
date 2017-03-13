@@ -11,7 +11,6 @@ $(document).ready(function() {
 				}
 				else{
 				    document.write(response['form'])
-                    console.log(response['form'])
 				}
 			}
     });
@@ -31,7 +30,6 @@ $(document).ready(function() {
 				}
 				else{
                     document.write(response['form'])
-                    console.log(response['form'])
 				}
 			}
             
