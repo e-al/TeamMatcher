@@ -57,3 +57,24 @@ $(document).ready(function() {
     });
     });
 });
+
+$(document).ready(function() {
+    $('#addproject').click(function() {
+
+        //var formData = JSON.stringify($('form').serializeArray());
+        $.ajax({
+            url: '/addproject',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+				if (response.redirect){
+                	window.location = response.redirect;
+				}
+				else{
+                    document.write(response['form'])
+				}
+			}
+
+    });
+    });
+});
