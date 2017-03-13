@@ -1,7 +1,7 @@
 from flask import request, render_template, session, redirect, url_for, jsonify
 from TeamMatcher import app
 from TeamMatcher.student.student import Student
-
+from TeamMatcher.project.project import Project
 
 @app.route('/')
 def index():
@@ -23,7 +23,19 @@ def teams():
 
 @app.route('/projects')
 def projects():
-    return render_template('projects.html')
+    """Lists the projects the student is involved in
+
+    WARNING: tentatively only lists the projects the student has created
+    """
+
+    error = None
+    projects = None
+
+    if 'username' in session:
+        username = session['username']
+        projects = Project.get_for_student(username)
+
+    return render_template('projects.html', error=error, projects=projects)
 
 @app.route('/searchteam')
 def searchteam():
@@ -37,9 +49,22 @@ def searchproject():
 def addteam():
     return render_template('addteam.html')
 
-@app.route('/addproject')
+@app.route('/addproject', methods=['POST', 'GET'])
 def addproject():
-    return render_template('addproject.html')
+
+    error = None
+
+    if 'username' in session:
+        if request.method == 'POST':
+            response = dict()
+            project_id = Project.add(session['username'], **request.get_json())
+            response['redirect'] = url_for('projects')
+            response['project_id'] = project_id
+            return jsonify(response)
+    else:
+        return redirect(url_for('login'))
+
+    return render_template('addproject.html', error=error)
 
 @app.route('/profile')
 def profile():
@@ -116,10 +141,4 @@ def login():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
-
-@app.route('/updateStudentInfo')
-def update_student_info():
-    """This is called when we need to update any student info"""
-
-    pass
 
