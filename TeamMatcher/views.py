@@ -64,7 +64,7 @@ def signUp():
                             request.form['password'],
                             request.form['name'])
                 session['username'] = request.form['username']
-                response['redirect'] = url_for('index')
+                response['redirect'] = url_for('index', _external=True)
                 return jsonify(response)
             except RuntimeError as err:
                 error = err
@@ -91,7 +91,7 @@ def login():
         elif Student.verify(request.form['username'],
                             request.form['password']):
             session['username'] = request.form['username']
-            response['redirect'] = url_for('index')
+            response['redirect'] = url_for('index', _external=True)
             return jsonify(response)
         else:
             error = 'Invalid password'
