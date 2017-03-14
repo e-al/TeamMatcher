@@ -14,12 +14,13 @@
 		<th>Actions</th>
       </tr>
     </thead>
-    <tbody>{% for project in info %}
+    <tbody>
+     {% for project in projects %}
       <tr>
-        <td>{{ project.name }}</td>
-        <td>{{ project.max_capacity}}</td>
-        <td>{{ project.description}}</td>
-        <th>{{ project.status}}</th>
+        <td>{{ project['name'] }}</td>
+        <td>{{ project['max_cap'] }}</td>
+        <td>{{ project['desc'] }}</td>
+        <th>{{ project['status'] }}</th>
         <td><a href="/remove">Remove</a>
         <!-- href="/{{ project. name }}_remove"
         	Could use sth like this to specify a project-->
