@@ -86,7 +86,7 @@ class Project(object):
         """, (kw.get('name', ''),
               kw.get('desc', ''),
               kw.get('max_cap', ''),
-              kw.get('status', ''),
+              kw.get('status', 'Created'),
               username))
 
         db.commit()

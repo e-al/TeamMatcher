@@ -74,7 +74,7 @@ def addproject():
         if request.method == 'POST':
             response = dict()
             project_id = Project.add(session['username'], **request.form)
-            response['redirect'] = url_for('projects')
+            response['redirect'] = url_for('projects', _external=True)
             response['project_id'] = project_id
             return jsonify(response)
     else:
