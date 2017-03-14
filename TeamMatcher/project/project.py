@@ -14,7 +14,7 @@ class Project(object):
         """
 
         db = mysql.get_db()
-        cur = db.cursor
+        cur = db.cursor()
         cur.execute("""
             SELECT Name, Description, Max_Capacity, Status
              FROM Project
@@ -81,7 +81,8 @@ class Project(object):
                 Status,
                 CreatedByStudentId
             )
-            VALUES(%s, %s, %s, %s, %s)
+            VALUES(%s, %s, %s, %s,
+                (SELECT Student_Id FROM Student WHERE Email=%s))
         """, (kw.get('name', ''),
               kw.get('desc', ''),
               kw.get('max_cap', ''),
