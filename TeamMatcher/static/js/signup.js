@@ -78,3 +78,20 @@ $(document).ready(function() {
     });
     });
 });
+
+$(document).ready(function() {
+    $('#ProjectTable tr td.removeProject a').click(function() {
+
+        //var formData = JSON.stringify($('form').serializeArray());
+        var projectId = $(this).closest("tr").attr("id");
+        $.ajax({
+            url: '/project',
+            data: { 'remove_project': projectId },
+            type: 'POST',
+            success: function(response) {
+                $(this).closest("tr").remove()
+            }
+
+        });
+    });
+});
