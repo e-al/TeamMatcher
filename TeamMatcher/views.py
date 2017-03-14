@@ -41,7 +41,7 @@ def projects():
             Project.remove(request.values['remove_project'])
             # just return success code without redirecting
             # client-side js code can then remove the project row
-            return json.dumps({'success:True'}), 200, \
+            return json.dumps({'success': True}), 200, \
                    {'ContentType': 'application/json'}
 
         projects_list = Project.get_for_student(session['username'])
@@ -92,7 +92,7 @@ def profile():
             return render_template('profile.html', error=None, info=info)
         if request.method == 'POST':
             Student.update_info(username, **request.form)
-            return json.dumps({'success:True'}), 200, \
+            return json.dumps({'success': True}), 200, \
                    {'ContentType': 'application/json'}
 
     return redirect(url_for('login'))
