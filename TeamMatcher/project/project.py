@@ -42,7 +42,7 @@ class Project(object):
         """
 
         db = mysql.get_db()
-        cur = db.cursor
+        cur = db.cursor()
         cur.execute("""
             SELECT Name, Description, Max_Capacity, Status
              FROM Project
