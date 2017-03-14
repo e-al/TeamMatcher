@@ -14,7 +14,7 @@ class Project(object):
         """
 
         db = mysql.get_db()
-        cur = db.cursor
+        cur = db.cursor()
         cur.execute("""
             SELECT Name, Description, Max_Capacity, Status
              FROM Project
@@ -42,11 +42,12 @@ class Project(object):
         """
 
         db = mysql.get_db()
-        cur = db.cursor
+        cur = db.cursor()
         cur.execute("""
             SELECT Name, Description, Max_Capacity, Status
              FROM Project
-             WHERE CreatedByStudentId = %s
+             WHERE CreatedByStudentId =
+                 (SELECT Student_Id FROM Student WHERE Email = %s)
         """, (username,))
 
         #TODO: this is not good if we have a lot of projects, change to range
@@ -81,11 +82,12 @@ class Project(object):
                 Status,
                 CreatedByStudentId
             )
-            VALUES(%s, %s, %s, %s, %s)
+            VALUES(%s, %s, %s, %s,
+                (SELECT Student_Id FROM Student WHERE Email=%s))
         """, (kw.get('name', ''),
               kw.get('desc', ''),
               kw.get('max_cap', ''),
-              kw.get('status', ''),
+              kw.get('status', 'Created'),
               username))
 
         db.commit()
