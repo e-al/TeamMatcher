@@ -1,7 +1,10 @@
 {% extends 'home.html' %}
 
 {% block container %}
+
+$(document).ready(function(){ /*code here*/ })
 <div class="top-pad">
+
 	<form class="form-horizontal">
 		<h2>Update Profile</h2>
 			<label for="name" class="col-sm-3 control-label">Name</label>
@@ -16,9 +19,9 @@
 
 			<label for="year" class="col-sm-3 control-label">Year</label>
 			<div class="col-sm-9">
-				<select id="year"  name="year" class="form-control" value = {{info.Year}}>
-					<option selected disabled>Choose here</option>
-					<option value="0">Freshmen</option>
+				<select id="year"  name="year" class="form-control"	>
+					<option disabled >Choose here</option>
+					<option value="0" >Freshmen</option>
 					<option value="1">Sophomore</option>
 					<option value="2">Junior</option>
 					<option value="3">Senior</option>
@@ -27,16 +30,12 @@
 
 			<label for="school" class="col-sm-3 control-label">School</label>
 			<div class="col-sm-9">
-				<select id="school" name="school" class="form-control" value = {{info.School}}>
-					<option selected disabled>Choose here</option>
-					<option value="0">UIUC</option>
-					<option value="1">other</option>
-				</select>
+				<input type="text" name="school" id="school" placeholder="School" value="{{info.school}}" class="form-control" autofocus>
 			</div>
 
 			<label class="control-label col-sm-3">GPA</label>
 			<div class="col-sm-9">
-						<input type="number" name="gpa" step="0.01" id="gpa" placeholder="GPA" value="{{info.GPA}}" class="form-control">
+						<input type="number" name="gpa" step="0.01" id="gpa" placeholder="GPA" value="{{info.gpa}}" class="form-control">
 			</div>
 
 			<label class="control-label col-sm-3">Skills</label>
@@ -48,6 +47,28 @@
 				<button id="updatestudentinfo" class="btn btn-primary btn-block">Update</button>
 
 		</div>
-	</form> <!-- /form -->
+	</form>
+	<script>
+
+	function setSelectedIndex(s, v) {
+
+    for ( var i = 0; i < s.options.length; i++ ) {
+
+        if ( s.options[i].value == v ) {
+
+            s.options[i].selected = true;
+
+            return;
+
+        }
+
+    }
+
+	}
+
+	setSelectedIndex(document.getElementById('year'),"{{info.year}}");
+
+</script><!-- /form -->
 </div> <!-- ./container -->
+
 {% endblock %}
