@@ -46,7 +46,8 @@ class Project(object):
         cur.execute("""
             SELECT Name, Description, Max_Capacity, Status
              FROM Project
-             WHERE CreatedByStudentId = %s
+             WHERE CreatedByStudentId =
+                 (SELECT Student_Id FROM Student WHERE Email = %s)
         """, (username,))
 
         #TODO: this is not good if we have a lot of projects, change to range

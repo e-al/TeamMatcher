@@ -34,7 +34,7 @@ def projects():
     """
 
     error = None
-    projects = None
+    projects_list = None
 
     if 'username' in session:
         if request.method == 'POST' and 'remove_project' in request.values:
@@ -44,10 +44,10 @@ def projects():
             return json.dumps({'success:True'}), 200, \
                    {'ContentType': 'application/json'}
 
-        username = session['username']
-        projects = Project.get_for_student(username)
+        projects_list = Project.get_for_student(session['username'])
 
-    return render_template('projects.html', error=error, projects=projects)
+    return render_template('projects.html', error=error,
+                           projects=projects_list)
 
 
 @app.route('/searchteam')
