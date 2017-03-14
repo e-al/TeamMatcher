@@ -16,12 +16,12 @@
     </thead>
     <tbody>
      {% for project in projects %}
-      <tr>
+      <tr id="{{ project['id'] }}">
         <td>{{ project['name'] }}</td>
         <td>{{ project['max_cap'] }}</td>
         <td>{{ project['desc'] }}</td>
         <th>{{ project['status'] }}</th>
-        <td><a href="/remove">Remove</a>
+        <td class="removeProject"><a href="/projects">Remove</a>
         <!-- href="/{{ project. name }}_remove"
         	Could use sth like this to specify a project-->
       </tr>

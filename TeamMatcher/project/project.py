@@ -44,7 +44,7 @@ class Project(object):
         db = mysql.get_db()
         cur = db.cursor()
         cur.execute("""
-            SELECT Name, Description, Max_Capacity, Status
+            SELECT Name, Description, Max_Capacity, Status, Project_Id
              FROM Project
              WHERE CreatedByStudentId =
                  (SELECT Student_Id FROM Student WHERE Email = %s)
@@ -58,7 +58,8 @@ class Project(object):
             res.append({'name': tup[0],
                         'desc': tup[1],
                         'max_cap': tup[2],
-                        'status': tup[3]})
+                        'status': tup[3],
+                        'id': tup[4]})
 
         return res
 
