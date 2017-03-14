@@ -85,7 +85,7 @@ $(document).ready(function() {
         //var formData = JSON.stringify($('form').serializeArray());
         var projectId = $(this).closest("tr").attr("id");
         $.ajax({
-            url: '/project',
+            url: '/projects',
             data: { 'remove_project': projectId },
             type: 'POST',
             success: function(response) {
