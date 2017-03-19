@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      FLASK_APP: TeamMatcher
+
+  db:
+    image: "mariadb"
+    volumes:
+      - data:/var/lib/
+      - ./TeamMatcher:/docker-entrypoint-initdb.d:ro
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_DATABASE_USER}
+      - MYSQL_PASSWORD=${MYSQL_DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE_DB}
+
+volumes:
+  data:
