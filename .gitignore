@@ -4,3 +4,5 @@ venv
 venv/*
 *.pyc
 *.egg_info/*
+TeamMatcher.egg-info/*
+instance/*
