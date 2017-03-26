@@ -92,6 +92,7 @@ CREATE TABLE StudentPartOfTeam(
         Student_Part_Of_Team_Id int(11) AUTO_INCREMENT PRIMARY KEY,
     	Student_Id int(11),
         Team_Id int(11),
+        Student_Owns BOOLEAN DEFAULT FALSE,
         FOREIGN KEY (Student_Id) REFERENCES Student(Student_Id),
         FOREIGN KEY (Team_Id) REFERENCES Team(Team_Id)
         );
