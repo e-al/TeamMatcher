@@ -64,6 +64,36 @@ class Project(object):
         return res
 
     @staticmethod
+    def get_for_student_no_team(username):
+        """
+
+        :param username: Student email whose projects will be retrieved
+        :return: A List of dictionaries describing project properties
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT Name, Description, Max_Capacity, Status, Project_Id
+             FROM Project
+             WHERE CreatedByStudentId =
+                 (SELECT Student_Id FROM Student WHERE Email = %s)
+             AND Team_Id = NULL
+        """, (username,))
+
+        #TODO: this is not good if we have a lot of projects, change to range
+        tups = cur.fetchall()
+
+        return [
+            {'name': tup[0],
+             'desc': tup[1],
+             'max_cap': tup[2],
+             'status': tup[3],
+             'id': tup[4]}
+            for tup in tups
+        ]
+
+    @staticmethod
     def add(username, **kwargs): # we should add team later
         """This method adds new project in the the DB
 
