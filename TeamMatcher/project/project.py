@@ -65,7 +65,7 @@ class Project(object):
 
     @staticmethod
     def add(username, **kwargs): # we should add team later
-        """This method inserts the new user (student) in the the DB
+        """This method adds new project in the the DB
 
         :param username email of the student that is creating the project
         :param kwargs A dictionary with a project description
