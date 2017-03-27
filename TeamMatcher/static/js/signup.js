@@ -91,7 +91,21 @@ $(document).ready(function() {
             success: function(response) {
                 $(this).closest("tr").remove()
             }
+        });
+    });
+});
 
+$(document).ready(function() {
+    $('#TeamTable tr td.removeTeam a').click(function() {
+        //var formData = JSON.stringify($('form').serializeArray());
+        var teamId = $(this).closest("tr").attr("id");
+        $.ajax({
+            url: '/teams',
+            data: { 'remove_team': teamId },
+            type: 'POST',
+            success: function(response) {
+                $(this).closest("tr").remove()
+            }
         });
     });
 });

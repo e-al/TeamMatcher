@@ -2,8 +2,22 @@
  
 {% block container %}
   <div class="top-pad">
-    <h1>Teams</h1>
-    <h2>Add team</h2>
-    <h2>My teams</h2>
+    <h1>My Teams</h1>
+    <table class="table table-hover" id="TeamTable">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+		<th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for team in teams %}
+      <tr id="{{ team['id'] }}">
+          <td><a href="/addteam?teamId={{ team['id'] }}">{{ team['name'] }}</a></td>
+          <td class="removeTeam"><a href="/teams">Remove</a></td>
+      </tr>
+     {% endfor %}
+    </tbody>
+  </table>
   </div>
 {% endblock %}
