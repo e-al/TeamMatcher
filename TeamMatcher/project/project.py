@@ -289,3 +289,27 @@ class Project(object):
              'gpa': tup[5]}
             for tup in tups
         ]
+
+    @staticmethod
+    def is_owner(username, project_id):
+        """Checks if the student owns project `project_id`
+
+        :param username:  student to check for the ownership
+        :param project_id: project to check for the ownership
+        :return: True if `username` owns `project_id`, False otherwise
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+
+        cur.execute("""
+            SELECT Project_Id
+            FROM Project
+            WHERE Project_Id=%s AND CreatedByStudentId=(
+                SELECT Student_Id FROM Student WHERE Email=%s
+            )
+        """, (project_id, username))
+
+        return len(cur.fetchall())
+
+
