@@ -43,6 +43,12 @@ def projects():
             # client-side js code can then remove the project row
             return json.dumps({'success': True}), 200, \
                    {'ContentType': 'application/json'}
+        if request.method == 'POST' and 'studentEmail' in request.values:
+            Project.remove_student(request.values['studentEmail'], request.values['projectId'])
+            # just return success code without redirecting
+            # client-side js code can then remove the project row
+            return json.dumps({'success': True}), 200, \
+                   {'ContentType': 'application/json'}
 
         projects_list = Project.get_for_student(session['username'])
 

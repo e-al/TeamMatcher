@@ -95,3 +95,22 @@ $(document).ready(function() {
         });
     });
 });
+
+$(document).ready(function() {
+    $('#ParticipantsTable tr td.removeParticipant a').click(function() {
+
+        //var formData = JSON.stringify($('form').serializeArray());
+        var str = $(this).closest("tr").attr("id");
+        var projectId = str.substring(0,str.instanceof(":"))
+        var studentEmail = str.substring(str.instanceof(":")+1)
+        $.ajax({
+            url: '/projects',
+            data: { 'projectId': projectId, 'studentEmail':studentEmail },
+            type: 'POST',
+            success: function(response) {
+                $(this).closest("tr").remove()
+            }
+
+        });
+    });
+});
