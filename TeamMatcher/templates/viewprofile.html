@@ -6,7 +6,7 @@ $(document).ready(function(){ /*code here*/ })
 <div class="top-pad">
 
 	<form class="form-horizontal">
-		<h2>Update Profile</h2>
+		<h2>Profile</h2>
 			<label for="name" class="col-sm-3 control-label">Name</label>
 			<div class="col-sm-9">
 				<input type="text" name="name" disabled id="name" placeholder="Name" value="{{info.name}}" class="form-control" autofocus>
@@ -42,10 +42,34 @@ $(document).ready(function(){ /*code here*/ })
 			<div class="col-sm-9">
 					<input type="text" disabled name="skill" id="skill" placeholder="Skills" class="form-control">
 			</div>
-
-
-		</div>
+		<h2>My Projects</h2>
+			<table class="table table-hover" id="ProjectTable">
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Max. Capacity</th>
+        <th>Description</th>
+        <th>Status</th>
+		<th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for project in projects %}
+	 	<tr id="{{ info['email'] }}:{{project['id']}}">
+        <td>{{ project['name'] }}</td>
+        <td>{{ project['max_cap'] }}</td>
+        <td>{{ project['desc'] }}</td>
+        <th>{{ project['status'] }}</th>
+        <td class="addToProject"><a href="/addToProject?proj={{project['id']}}&user={{ info['email'] }}">add</a>
+        <!-- href="/{{ project. name }}_remove"
+        	Could use sth like this to specify a project-->
+      </tr>
+     {% endfor %}
+    </tbody>
+  </table>
 	</form>
+</div>
+
 	<script>
 
 	function setSelectedIndex(s, v) {

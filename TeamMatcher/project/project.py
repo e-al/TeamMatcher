@@ -37,7 +37,7 @@ class Project(object):
 
 
     @staticmethod
-    def get_for_student(username):
+    def get_for_student_owner(username):
         """Retrieve projects created by student
 
         :param username Student email whose projects will be retrieved
@@ -51,6 +51,37 @@ class Project(object):
              FROM Project
              WHERE CreatedByStudentId =
                  (SELECT Student_Id FROM Student WHERE Email = %s)
+        """, (username,))
+
+        #TODO: this is not good if we have a lot of projects, change to range
+        tups = cur.fetchall()
+        if tups is None:
+            return
+        res = []
+
+        for tup in tups:
+            res.append({'name': tup[0],
+                        'desc': tup[1],
+                        'max_cap': tup[2],
+                        'status': tup[3],
+                        'id': tup[4]})
+
+        return res
+
+    @staticmethod
+    def get_for_student(username):
+        """Retrieve projects created by student
+
+        :param username Student email whose projects will be retrieved
+        :returns A list of dictionaries describing project properties
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT Name, Description, Max_Capacity, Status, Project_Id
+             FROM Project
+             WHERE Project_Id in (SELECT Project_Id from StudentPartOfProject where Student_Id = (SELECT Student_Id FROM Student WHERE Email = %s))
         """, (username,))
 
         #TODO: this is not good if we have a lot of projects, change to range
@@ -248,4 +279,15 @@ class Project(object):
             INSERT INTO StudentPartOfProject(Student_Id, Project_Id, Student_Owns)
             VALUES(%s, %s, FALSE)
         """, (person_id, project_id,))
+        db.commit()
+
+    @staticmethod
+    def addPersonToProjectUser(project_id, person_user):
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            INSERT INTO StudentPartOfProject(Student_Id, Project_Id, Student_Owns)
+            VALUES((Select Student_Id from Student where Email = %s), %s, FALSE)
+        """, (person_user, project_id,))
         db.commit()
