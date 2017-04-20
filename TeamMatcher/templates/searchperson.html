@@ -2,21 +2,21 @@
  
 {% block container %}
   <div class="top-pad">
-    <h1>Search Projects</h1>
-    <input type ="text" id = "projectSearchInput" onkeyup="searchProj()" placeholder="Search for projects...">
-    <ul id="projUL">
+    <h1>Search People</h1>
+    <input type ="text" id = "peopleSearchInput" onkeyup="searchpeople()" placeholder="Search for projects...">
+    <ul id="peopleUL">
 
-     {% for project in info %}
-      <li><a href = "/viewproject?proj={{project['id']}}">{{ project['name'] }}</a></li>
+     {% for person in info %}
+      <li><a href = "/viewprofile?user={{person['email']}}">{{ person['name'] }}</a></li>
      {% endfor %}
     </ul>
   </div>
 <script>
-  function searchProj(){
+  function searchpeople(){
     var input, filter, ul, li, a, i;
-    input = document.getElementById('projectSearchInput');
+    input = document.getElementById('peopleSearchInput');
     filter = input.value.toUpperCase();
-    ul = document.getElementById('projUL');
+    ul = document.getElementById('peopleUL');
     li = ul.getElementsByTagName('li');
 
     for(i = 0 ; i < li.length; i++)

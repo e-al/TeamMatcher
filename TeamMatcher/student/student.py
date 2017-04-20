@@ -107,6 +107,26 @@ class Student(object):
         res['email'] = tup[5]
 
         return res
+    @staticmethod
+    def retrieve_all_info():
+       """This method retrieves the info about the student in the DB
+       It returns the dictionary containing the fields of Student class
+       """
+       db = mysql.get_db()
+       cur = db.cursor()
+       cur.execute("""
+           SELECT Name, GPA, School, Major, Year, Email FROM Student
+       """)
+       tups = cur.fetchall()
+       return [
+           {'name' : tup[0],
+            'gpa' : tup[1],
+            'school' : tup[2],
+            'major' : tup[3],
+            'year' : tup[4],
+            'email' : tup[5]}
+            for tup in tups
+        ]
 
     @staticmethod
     def update_skill(username, skill, level):

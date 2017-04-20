@@ -57,7 +57,8 @@ def searchteam():
 
 @app.route('/searchproject')
 def searchproject():
-    return render_template('searchproject.html')
+    info = Project.get_all();
+    return render_template('searchproject.html', info = info)
 
 
 @app.route('/addteam')
@@ -96,6 +97,39 @@ def profile():
                    {'ContentType': 'application/json'}
 
     return redirect(url_for('login'))
+
+@app.route('/viewprofile', methods=['POST', 'GET'])
+def viewprofile():
+    if 'username' in session:
+        username = request.args.get('user')
+        if request.method == 'GET':
+            info = Student.retrieve_info(username)
+            return render_template('viewprofile.html', error=None, info=info)
+
+    return redirect(url_for('login'))
+
+@app.route('/viewproject', methods=['POST', 'GET'])
+def viewproject():
+    if 'username' in session:
+        id = request.args.get('proj')
+        if request.method == 'GET':
+            info = Project.get_id(id)
+            people = Project.get_participant_id(id)
+            return render_template('viewproject.html', error=None, project=info, people = people)
+
+    return redirect(url_for('login'))
+
+
+
+@app.route('/searchprofiles', methods=['POST', 'GET'])
+def searchprofiles():
+    if 'username' in session:
+        if request.method == 'GET':
+            info = Student.retrieve_all_info()
+            return render_template('searchperson.html', error=None, info=info)
+
+    return redirect(url_for('login'))
+
 
 
 @app.route('/signup', methods=['POST', 'GET'])

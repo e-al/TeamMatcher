@@ -1,0 +1,62 @@
+{% extends 'home.html' %}
+ 
+{% block container %}
+  <div class="top-pad">
+    <form class="form-horizontal" role="form">
+		<h2>View Project</h2>
+
+
+			<label for="name" class="col-sm-3 control-label">Project Name</label>
+			<div class="col-sm-9">
+				<input type="text" name="name" id="name" placeholder="Project Name" class="form-control" autofocus disabled value="{{project.name}}">
+			</div>
+
+        <div class="form-group">
+			<label class="control-label col-sm-3">Max. number of participants</label>
+			<div class="col-sm-6">
+						<input type="number" disabled name="max_cap" id="max_cap" placeholder="Max. No" class="form-control" value="{{project.max_cap}}">
+			</div>
+		</div> <!-- /.form-group -->
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">Skills</label>
+			<div class="col-sm-9">
+					<input type="text" disabled name="skills" id="skills" placeholder="Skills" class="form-control" value="{{project.skills}}">
+			</div>
+		</div> <!-- /.form-group -->
+
+
+		<div class="form-group">
+			<label for="desc" class="col-sm-3 control-label">Description</label>
+			<div class="col-sm-9">
+				<textarea name="desc" disabled id="desc" class="form-control" row="6" value="{{project.desc}}"></textarea>
+			</div>
+		</div>
+
+
+
+        <div class="form-group">
+          <label for="ParticipantsTable" class="col-sm-3 control-label">Project Participants</label>
+              <table class="table table-hover" id="ParticipantsTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Year</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for person in people %}
+                  <tr id="{{ person['id'] }}:{{project.id}} ">
+                    <td>{{ person['name'] }}</td>
+                    <td>{{ person['email'] }}</td>
+                    <td>{{ person['year'] }}</td>
+
+                 {% endfor %}
+                 </tr>
+                </tbody>
+              </table>
+        </div>
+    </form>
+  </div>
+{% endblock %}

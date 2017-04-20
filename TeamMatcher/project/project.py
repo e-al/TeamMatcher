@@ -16,19 +16,22 @@ class Project(object):
         db = mysql.get_db()
         cur = db.cursor()
         cur.execute("""
-            SELECT Name, Description, Max_Capacity, Status
-             FROM Project
+            SELECT Name, Description, Max_Capacity, Status, Project_Id
+            FROM Project
         """)
 
         #TODO: this is not good if we have a lot of projects, change to range
         tups = cur.fetchall()
+        if tups is None:
+            return
         res = []
 
         for tup in tups:
             res.append({'name': tup[0],
                         'desc': tup[1],
                         'max_cap': tup[2],
-                        'status': tup[3]})
+                        'status': tup[3],
+                        'id':tup[4]})
 
         return res
 
@@ -52,6 +55,8 @@ class Project(object):
 
         #TODO: this is not good if we have a lot of projects, change to range
         tups = cur.fetchall()
+        if tups is None:
+            return
         res = []
 
         for tup in tups:
@@ -62,6 +67,58 @@ class Project(object):
                         'id': tup[4]})
 
         return res
+
+    @staticmethod
+    def get_id(id):
+        """Retrieve projects created by student
+
+        :param username Student email whose projects will be retrieved
+        :returns A list of dictionaries describing project properties
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT Name, Description, Max_Capacity, Status, Project_Id
+             FROM Project
+             WHERE Project_Id = %s
+        """, (id,))
+
+        #TODO: this is not good if we have a lot of projects, change to range
+        tup = cur.fetchone()
+        if tup is None:
+            return
+        res = dict()
+        res['name'] = tup[0]
+        res['desc'] = tup[1]
+        res['max_cap'] = tup[2]
+        res['status'] = tup[3]
+        res['id'] = tup[4]
+
+        return res
+    @staticmethod
+    def get_participant_id(id):
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT Name, GPA, School, Major, Year, Email
+             FROM Student
+             WHERE Student_Id in (SELECT Student_Id FROM StudentPartOfProject WHERE Project_Id = %s)
+        """, (id,))
+
+        #TODO: this is not good if we have a lot of projects, change to range
+        tups = cur.fetchall()
+        if tups is None:
+            return
+        return [
+           {'name' : tup[0],
+            'gpa' : tup[1],
+            'school' : tup[2],
+            'major' : tup[3],
+            'year' : tup[4],
+            'email' : tup[5]}
+            for tup in tups
+        ]
 
     @staticmethod
     def get_for_student_no_team(username):
@@ -83,6 +140,8 @@ class Project(object):
 
         #TODO: this is not good if we have a lot of projects, change to range
         tups = cur.fetchall()
+        if tups is None:
+            return
 
         return [
             {'name': tup[0],
@@ -120,6 +179,13 @@ class Project(object):
               kw.get('max_cap', ''),
               kw.get('status', 'Created'),
               username))
+        cur.execute("""SELECT MAX(Project_Id) From Project""")
+        tup = cur.fetchone()
+        cur.execute("""
+            INSERT INTO StudentPartOfProject(Student_Id, Project_Id, Student_Owns)
+            VALUES((SELECT Student_Id FROM Student WHERE Email=%s), %s, TRUE)
+        """, (username, tup))
+
 
         db.commit()
 
@@ -171,4 +237,15 @@ class Project(object):
         """, (project_id,))
 
         #TODO: make sure we remove all references to this project as well
+        db.commit()
+
+    @staticmethod
+    def addPersonToProject(project_id, person_id):
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            INSERT INTO StudentPartOfProject(Student_Id, Project_Id, Student_Owns)
+            VALUES(%s, %s, FALSE)
+        """, (person_id, project_id,))
         db.commit()

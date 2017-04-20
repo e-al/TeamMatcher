@@ -21,10 +21,11 @@ CREATE TABLE Student (
     Likes      INT(11)
 );
 
+/*
 CREATE TABLE Team (
     Team_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
     Name    VARCHAR(100)
-);
+);*/
 
 CREATE TABLE Project (
     Project_Id         INT(11)               AUTO_INCREMENT PRIMARY KEY,
@@ -32,10 +33,8 @@ CREATE TABLE Project (
     Description        VARCHAR(255),
     Max_Capacity       INT(11),
     Status             VARCHAR(100) NOT NULL DEFAULT 'Created',
-    Team_Id            INT(11),
     CreatedByStudentId INT(11),
-    FOREIGN KEY (CreatedByStudentId) REFERENCES Student (Student_Id),
-    FOREIGN KEY (Team_Id) REFERENCES Team(Team_Id)
+    FOREIGN KEY (CreatedByStudentId) REFERENCES Student (Student_Id)
 );
 
 CREATE TABLE ProjectCategory (
@@ -89,18 +88,18 @@ CREATE TABLE StudentHasSkill (
 );
 
 
-CREATE TABLE StudentPartOfTeam (
-    Student_Part_Of_Team_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE StudentPartOfProject (
+    Student_Part_Of_Project_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
     Student_Id              INT(11),
-    Team_Id                 INT(11),
+    Project_Id              INT(11),
     Student_Owns            BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (Student_Id) REFERENCES Student (Student_Id),
-    FOREIGN KEY (Team_Id) REFERENCES Team (Team_Id)
+    FOREIGN KEY (Project_Id) REFERENCES Project (Project_Id)
 );
 
 CREATE TABLE AvailableTime (
     Available_Time_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    Team_Id           INT(11),
+    Project_Id           INT(11),
     Student_Id        INT(11),
     Dow               INT(11)
         CHECK (DOW >= 0 AND number <= 6),
@@ -108,10 +107,11 @@ CREATE TABLE AvailableTime (
         CHECK (Start >= 0 AND Start <= 23),
     Until             INT(11)
         CHECK (Start >= 0 AND Start <= 23),
-    FOREIGN KEY (Team_Id) REFERENCES Team (Team_Id),
+    FOREIGN KEY (Project_Id) REFERENCES Project (Project_Id),
     FOREIGN KEY (Student_Id) REFERENCES Student (Student_Id)
 );
 
+/*
 CREATE TABLE TeamManagesProject (
     Id INT(11) AUTO_INCREMENT PRIMARY KEY,
     Team_Id INT(11),
@@ -120,5 +120,5 @@ CREATE TABLE TeamManagesProject (
         ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (Project_Id) REFERENCES Project(Project_Id)
         ON DELETE CASCADE ON UPDATE CASCADE
-);
+);*/
 
