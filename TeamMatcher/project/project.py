@@ -35,6 +35,60 @@ class Project(object):
 
         return res
 
+    @staticmethod
+    def get_all_Skills(id):
+        """Retrieve all projects from the database
+
+        :returns A list of dictionaries describing project properties
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT Name, Skill_Id
+            FROM Skill
+            Where Skill_Id not in (Select Skill_Id from ProjectNeedsSkill where Project_id = %s)
+        """, (id,))
+
+        #TODO: this is not good if we have a lot of projects, change to range
+        tups = cur.fetchall()
+        if tups is None:
+            return
+        res = []
+
+        for tup in tups:
+            res.append({'name': tup[0],
+                        'id': tup[1]})
+
+        return res
+
+    @staticmethod
+    def get_Skills(id):
+        """Retrieve all projects from the database
+
+        :returns A list of dictionaries describing project properties
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT Name, Skill_Id
+            FROM Skill
+            Where Skill_Id in (Select Skill_Id from ProjectNeedsSkill where Project_id = %s)
+        """, (id,))
+
+        #TODO: this is not good if we have a lot of projects, change to range
+        tups = cur.fetchall()
+        if tups is None:
+            return
+        res = []
+
+        for tup in tups:
+            res.append({'name': tup[0],
+                        'id': tup[1]})
+
+        return res
+
 
     @staticmethod
     def get_for_student_owner(username):
@@ -223,6 +277,20 @@ class Project(object):
         return cur.lastrowid
 
     @staticmethod
+    def createSkill(skill):
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            INSERT INTO Skill(name)
+            VALUES (%s)
+        """, (skill,))
+        db.commit()
+        cur.execute("""SELECT MAX(Skill_Id) From Skill""")
+        tup = cur.fetchone()
+        return tup
+
+    @staticmethod
     def update_info(**kwargs):
         """Updates the project info
 
@@ -282,6 +350,17 @@ class Project(object):
         db.commit()
 
     @staticmethod
+    def addSkillToProject(project_id, skill_id):
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            INSERT INTO ProjectNeedsSkill(Skill_Id, Project_Id)
+            VALUES(%s, %s)
+        """, (skill_id, project_id,))
+        db.commit()
+
+    @staticmethod
     def addPersonToProjectUser(project_id, person_user):
 
         db = mysql.get_db()
@@ -302,4 +381,16 @@ class Project(object):
             WHERE Student_Id = (Select Student_Id from Student where Email = %s)
             AND Project_Id = %s
         """, (person_user, project_id,))
+        db.commit()
+
+    @staticmethod
+    def removeSkillFromProject(project_id, skill_id):
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            DELETE FROM ProjectNeedsSkill
+            WHERE Skill_Id = %s
+            AND Project_Id = %s
+        """, (skill_id, project_id,))
         db.commit()

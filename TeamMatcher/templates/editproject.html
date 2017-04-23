@@ -20,7 +20,7 @@
         <div class="form-group">
 			<label class="control-label col-sm-3">Max. number of participants</label>
 			<div class="col-sm-6">
-						<input type="number" name="max_cap"id="max_cap" placeholder="Max. No" class="form-control"  value="{{project.max_cap}}">
+						<input type="number" name="max_cap" id="max_cap" placeholder="Max. No" class="form-control"  value="{{project.max_cap}}">
 			</div>
 		</div> <!-- /.form-group -->
 
@@ -71,5 +71,67 @@
                  </tr>
                 </tbody>
               </table>
+      <label for="SkillsTable" class="col-sm-3 control-label">Project Skills</label>
+              <table class="table table-hover" id="SkillsTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for skill in projSkills %}
+                  <tr>
+                    <td>{{ skill['name'] }}</td>
+                    <td><a href="/removeprojskill?proj={{project['id']}}&skill={{skill['id']}}">Remove</a></td>
+
+                 {% endfor %}
+                 </tr>
+                </tbody>
+              </table>
+
+<h1>Add Skills</h1>
+    <input type ="text" id = "skillSearchInput" onkeyup="searchSkills()" placeholder="Search for skills...">
+    <ul id="skillUL">
+
+     {% for skill in skills %}
+      <li><a href = "/addSkillProj?skill={{skill['id']}}&proj={{project['id']}}">{{ skill['name'] }}</a></li>
+     {% endfor %}
+    </ul>
   </div>
+  <script>
+  function searchSkills(){
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('skillSearchInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById('skillUL');
+    li = ul.getElementsByTagName('li');
+
+    for(i = 0 ; i < li.length; i++)
+    {
+      a = li[i].getElementsByTagName("a")[0];
+      if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+  </script>
+ <form class="form-horizontal" role="form" action="/createSkill" method="get">
+     <div class="form-group">
+			<label class="control-label col-sm-3">Create a Skill</label>
+         <div class="form-group">
+			<label for="proj" class="col-sm-3 control-label" style="display:none">Project Id</label>
+			<div class="col-sm-9">
+				<input type="text" name="proj" id="proj" placeholder="Project Id" class="form-control" autofocus style="display:none" value="{{project.id}}">
+			</div>
+		</div>
+
+			<div class="col-sm-6">
+						<input type="text" name="skill" id="skill" placeholder="Skill" class="form-control">
+			</div>
+		</div>
+       <input type="submit" value="Create Skill" />
+ </form>
+ </div>
 {% endblock %}

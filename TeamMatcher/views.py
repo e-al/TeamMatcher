@@ -69,6 +69,14 @@ def addToProject():
     url = "/viewprofile?user="+ username
     return redirect(url)
 
+@app.route('/addSkillProj')
+def addSkillProj():
+    skill = request.args.get('skill')
+    id = request.args.get('proj')
+    Project.addSkillToProject(id,skill)
+    url = "/editproject?proj="+ id
+    return redirect(url)
+
 @app.route('/removeprojpart')
 def removeprojpart():
     username = request.args.get('user')
@@ -77,7 +85,22 @@ def removeprojpart():
     url = "/editproject?proj="+ id
     return redirect(url)
 
+@app.route('/removeprojskill')
+def removeprojskill():
+    skill = request.args.get('skill')
+    id = request.args.get('proj')
+    Project.removeSkillFromProject(id,skill)
+    url = "/editproject?proj="+ id
+    return redirect(url)
 
+@app.route('/createSkill')
+def createSkill():
+    skill = request.args.get('skill')
+    id = request.args.get('proj')
+    skill_id = Project.createSkill(skill)
+    Project.addSkillToProject(id,skill_id)
+    url = "/editproject?proj="+ id
+    return redirect(url)
 
 @app.route('/addproject', methods=['POST', 'GET'])
 def addproject():
@@ -112,7 +135,9 @@ def editproject():
             id = request.args.get('proj')
             project = Project.get_id(id)
             people = Project.get_participant_id(id)
-            return render_template("editproject.html", project = project, people = people )
+            skills = Project.get_all_Skills(id)
+            projSkills = Project.get_Skills(id)
+            return render_template("editproject.html", project = project, people = people, skills = skills , projSkills = projSkills)
     else:
         return redirect(url_for('login'))
 

@@ -68,6 +68,13 @@ CREATE TABLE ProjectForClass (
     FOREIGN KEY (Class_Id) REFERENCES Class (Class_Id)
 );
 
+CREATE TABLE ProjectNeedsSkill (
+    Project_Needs_Skill_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Project_Id           INT(11),
+    Skill_Id             INT(11),
+    FOREIGN KEY (Project_Id) REFERENCES Project (Project_Id),
+    FOREIGN KEY (Skill_Id) REFERENCES Skill (Skill_Id)
+);
 
 CREATE TABLE StudentEnrolledInClass (
     Student_Enrolled_In_Class_Id INT(11) PRIMARY KEY,
