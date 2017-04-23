@@ -75,7 +75,7 @@ class Project(object):
         db = mysql.get_db()
         cur = db.cursor()
         cur.execute("""
-            SELECT Name, Description, Max_Capacity, Status, Project_Id
+            SELECT Name, Description, Max_Capacity, Status, P.Project_Id
              FROM Project P, StudentPartOfProject S
              WHERE S.Student_Id =
                  (SELECT Student_Id FROM Student WHERE Email=%s)
@@ -134,6 +134,8 @@ class Project(object):
         :returns Numeric id of the inserted project
         """
 
+        print("Adding project for user %s" % username)
+        print(kwargs)
         kw = kwargs
         db = mysql.get_db()
         cur = db.cursor()
@@ -161,8 +163,8 @@ class Project(object):
                 Student_Id,
                 Project_Id
             )
-            VALUES (SELECT Student_Id FROM Student WHERE Email=%s, %s)
-        """), (username, project_id)
+            VALUES ((SELECT Student_Id FROM Student WHERE Email=%s), %s)
+        """, (username, project_id))
 
         db.commit()
 
@@ -300,7 +302,7 @@ class Project(object):
         cur = db.cursor()
 
         cur.execute("""
-            SELECT Student_Id, Name, Email, School, Year, Major, GPA
+            SELECT Name, Email, School, Year, Major, GPA
             FROM StudentPartOfProject SP INNER JOIN Student S
             ON SP.Student_Id = S.Student_Id
             WHERE SP.Project_Id = %s
