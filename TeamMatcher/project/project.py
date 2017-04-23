@@ -7,6 +7,34 @@ class Project(object):
         pass
 
     @staticmethod
+    def get_info(project_id):
+        """Retrieve the project with id `project_id`
+
+        :param project_id Id from Projects relation
+        :returns A dictionary with the description of a project with
+            id = project_id
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT Name, Description, Max_Capacity, Status, Project_Id
+             FROM Project P
+             WHERE P.Project_Id = %s
+        """, (project_id,))
+
+        tup = cur.fetchone()
+
+        if not tup:
+            return None
+
+        return {'name': tup[0],
+                'desc': tup[1],
+                'max_cap': tup[2],
+                'status': tup[3],
+                'id': tup[4]}
+
+    @staticmethod
     def get_all():
         """Retrieve all projects from the database
 
