@@ -57,8 +57,8 @@ def searchteam():
 
 @app.route('/searchproject')
 def searchproject():
-    info = Project.get_all();
-    return render_template('searchproject.html', info = info)
+    info = Project.get_all()
+    return render_template('searchproject.html', info=info)
 
 
 @app.route('/addToProject')
@@ -112,7 +112,8 @@ def editproject():
             id = request.args.get('proj')
             project = Project.get_info(id)
             people = Project.get_participants(id)
-            return render_template("editproject.html", project = project, people = people )
+            return render_template("editproject.html", project=project,
+                                   people=people)
     else:
         return redirect(url_for('login'))
 
@@ -140,7 +141,8 @@ def viewprofile():
         if request.method == 'GET':
             info = Student.retrieve_info(username)
             projects_list = Project.get_for_student(session['username'])
-            return render_template('viewprofile.html', error=None, info=info, projects = projects_list)
+            return render_template('viewprofile.html', error=None, info=info,
+                                   projects=projects_list)
     return redirect(url_for('login'))
 
 @app.route('/viewproject', methods=['POST', 'GET'])
@@ -150,7 +152,8 @@ def viewproject():
         if request.method == 'GET':
             info = Project.get_info(id)
             people = Project.get_participants(id)
-            return render_template('viewproject.html', error=None, project=info, people=people)
+            return render_template('viewproject.html', error=None,
+                                   project=info, people=people)
 
     return redirect(url_for('login'))
 
