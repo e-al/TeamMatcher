@@ -5,12 +5,17 @@
     <form class="form-horizontal" role="form">
 		<h2>Edit Project</h2>
 
-
-			<label for="name" class="col-sm-3 control-label">Project Name</label>
+        <div class="form-group">
+			<label for="id" class="col-sm-3 control-label" style="display:none">Project Id</label>
 			<div class="col-sm-9">
-				<input type="text" name="name" id="name" placeholder="Project Name" class="form-control" autofocus  value="{{project.name}}">
+				<input type="text" name="id" id="id" placeholder="Project Id" class="form-control" autofocus style="display:none" value="{{project.id}}">
 			</div>
 		</div>
+
+        <label for="name" class="col-sm-3 control-label">Project Name</label>
+        <div class="col-sm-9">
+            <input type="text" name="name" id="name" placeholder="Project Name" class="form-control" autofocus  value="{{project.name}}">
+        </div>
 
         <div class="form-group">
 			<label class="control-label col-sm-3">Max. number of participants</label>
@@ -36,7 +41,15 @@
 
 
 
+
+
         <div class="form-group">
+		<div class="col-sm-9 col-sm-offset-3">
+				<button id="editproject" class="btn btn-primary btn-block" type="button">Edit project</button>
+			</div>
+		</div>
+    </form>
+
           <label for="ParticipantsTable" class="col-sm-3 control-label">Project Participants</label>
               <table class="table table-hover" id="ParticipantsTable">
                 <thead>
@@ -48,24 +61,15 @@
                 </thead>
                 <tbody>
                  {% for person in people %}
-                  <tr id="{{ person['id'] }}:{{project.id}} ">
+                  <tr id="{{ person['id'] }}:{{project['id']}} ">
                     <td>{{ person['name'] }}</td>
                     <td>{{ person['email'] }}</td>
                     <td>{{ person['year'] }}</td>
-                    <td class="removeParticipant"><a href="/">Remove</a></td>
+                    <td class="removeParticipant"><a href="/removeprojpart?proj={{project['id']}}&user={{person['email']}}">Remove</a></td>
 
                  {% endfor %}
                  </tr>
                 </tbody>
               </table>
-        </div>                                                                                    
-
-        <div class="form-group">
-		<div class="col-sm-9 col-sm-offset-3">
-				<button id="editproject" class="btn btn-primary btn-block" type="button">Add project</button>
-			</div>
-		</div>
-
-
   </div>
 {% endblock %}

@@ -291,3 +291,15 @@ class Project(object):
             VALUES((Select Student_Id from Student where Email = %s), %s, FALSE)
         """, (person_user, project_id,))
         db.commit()
+
+    @staticmethod
+    def removePersonFromProject(project_id, person_user):
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            DELETE FROM StudentPartOfProject
+            WHERE Student_Id = (Select Student_Id from Student where Email = %s)
+            AND Project_Id = %s
+        """, (person_user, project_id,))
+        db.commit()

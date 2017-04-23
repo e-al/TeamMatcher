@@ -17,7 +17,7 @@
     <tbody>
      {% for project in projects %}
       <tr id="{{ project['id'] }}">
-        <td>{{ project['name'] }}</td>
+        <td><a href="/editproject?proj={{project['id']}}">{{ project['name'] }}</a></td>
         <td>{{ project['max_cap'] }}</td>
         <td>{{ project['desc'] }}</td>
         <th>{{ project['status'] }}</th>

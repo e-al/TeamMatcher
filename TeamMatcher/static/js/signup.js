@@ -116,38 +116,4 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('#TeamTable tr td.removeTeam a').click(function() {
-        //var formData = JSON.stringify($('form').serializeArray());
-        var teamId = $(this).closest("tr").attr("id");
-        $.ajax({
-            url: '/teams',
-            data: { 'remove_team': teamId },
-            type: 'POST',
-            success: function(response) {
-                $(this).closest("tr").remove()
-            }
-        });
-    });
-});
-
-
-$(document).ready(function() {
-    $('#ParticipantsTable tr td.removeProject a').click(function() {
-
-        //var formData = JSON.stringify($('form').serializeArray());
-        var str = $(this).closest("tr").attr("id");
-        var personId = str.substring(0,str.indexOf(":"));
-        var teamId = str.substring(str.indexOf(":")+1);
-        $.ajax({
-            url: '/projects',
-            data: { 'remove_person': personId, 'remove_team' : teamId },
-            type: 'POST',
-            success: function(response) {
-                $(this).closest("tr").remove()
-            }
-
-        });
-    });
-});
 

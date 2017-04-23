@@ -69,6 +69,15 @@ def addToProject():
     url = "/viewprofile?user="+ username
     return redirect(url)
 
+@app.route('/removeprojpart')
+def removeprojpart():
+    username = request.args.get('user')
+    id = request.args.get('proj')
+    Project.removePersonFromProject(id,username)
+    url = "/editproject?proj="+ id
+    return redirect(url)
+
+
 
 @app.route('/addproject', methods=['POST', 'GET'])
 def addproject():
@@ -86,6 +95,28 @@ def addproject():
         return redirect(url_for('login'))
 
     return render_template('addproject.html', error=error)
+
+@app.route('/editproject', methods=['POST', 'GET'])
+def editproject():
+
+    error = None
+
+    if 'username' in session:
+        if request.method == 'POST':
+            response = dict()
+            project_id = Project.update_info(**request.form)
+            response['redirect'] = url_for('projects', _external=True)
+            response['project_id'] = project_id
+            return jsonify(response)
+        if request.method == 'GET':
+            id = request.args.get('proj')
+            project = Project.get_id(id)
+            people = Project.get_participant_id(id)
+            return render_template("editproject.html", project = project, people = people )
+    else:
+        return redirect(url_for('login'))
+
+    return render_template('editproject.html', error=error)
 
 
 @app.route('/profile', methods=['POST', 'GET'])
