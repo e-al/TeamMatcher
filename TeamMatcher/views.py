@@ -44,7 +44,7 @@ def projects():
             return json.dumps({'success': True}), 200, \
                    {'ContentType': 'application/json'}
 
-        projects_list = Project.get_for_student(session['username'])
+        projects_list = Project.get_created_by_student(session['username'])
 
     return render_template('projects.html', error=error,
                            projects=projects_list)
@@ -57,15 +57,15 @@ def searchteam():
 
 @app.route('/searchproject')
 def searchproject():
-    info = Project.get_all();
-    return render_template('searchproject.html', info = info)
+    info = Project.get_all()
+    return render_template('searchproject.html', info=info)
 
 
 @app.route('/addToProject')
 def addToProject():
     username = request.args.get('user')
     id = request.args.get('proj')
-    Project.addPersonToProjectUser(id,username)
+    Project.add_student(username, id)
     url = "/viewprofile?user="+ username
     return redirect(url)
 
@@ -73,7 +73,7 @@ def addToProject():
 def removeprojpart():
     username = request.args.get('user')
     id = request.args.get('proj')
-    Project.removePersonFromProject(id,username)
+    Project.remove_student(username, id)
     url = "/editproject?proj="+ id
     return redirect(url)
 
@@ -110,9 +110,10 @@ def editproject():
             return jsonify(response)
         if request.method == 'GET':
             id = request.args.get('proj')
-            project = Project.get_id(id)
-            people = Project.get_participant_id(id)
-            return render_template("editproject.html", project = project, people = people )
+            project = Project.get_info(id)
+            people = Project.get_participants(id)
+            return render_template("editproject.html", project=project,
+                                   people=people)
     else:
         return redirect(url_for('login'))
 
@@ -140,7 +141,8 @@ def viewprofile():
         if request.method == 'GET':
             info = Student.retrieve_info(username)
             projects_list = Project.get_for_student(session['username'])
-            return render_template('viewprofile.html', error=None, info=info, projects = projects_list)
+            return render_template('viewprofile.html', error=None, info=info,
+                                   projects=projects_list)
     return redirect(url_for('login'))
 
 @app.route('/viewproject', methods=['POST', 'GET'])
@@ -148,9 +150,10 @@ def viewproject():
     if 'username' in session:
         id = request.args.get('proj')
         if request.method == 'GET':
-            info = Project.get_id(id)
-            people = Project.get_participant_id(id)
-            return render_template('viewproject.html', error=None, project=info, people = people)
+            info = Project.get_info(id)
+            people = Project.get_participants(id)
+            return render_template('viewproject.html', error=None,
+                                   project=info, people=people)
 
     return redirect(url_for('login'))
 

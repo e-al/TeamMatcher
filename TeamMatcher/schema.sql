@@ -21,18 +21,13 @@ CREATE TABLE Student (
     Likes      INT(11)
 );
 
-/*
-CREATE TABLE Team (
-    Team_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    Name    VARCHAR(100)
-);*/
-
 CREATE TABLE Project (
     Project_Id         INT(11)               AUTO_INCREMENT PRIMARY KEY,
     Name               VARCHAR(100),
     Description        VARCHAR(255),
     Max_Capacity       INT(11),
     Status             VARCHAR(100) NOT NULL DEFAULT 'Created',
+    Team_Id            INT(11),
     CreatedByStudentId INT(11),
     FOREIGN KEY (CreatedByStudentId) REFERENCES Student (Student_Id)
 );
@@ -89,10 +84,9 @@ CREATE TABLE StudentHasSkill (
 
 
 CREATE TABLE StudentPartOfProject (
-    Student_Part_Of_Project_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Id INT(11) AUTO_INCREMENT PRIMARY KEY,
     Student_Id              INT(11),
-    Project_Id              INT(11),
-    Student_Owns            BOOLEAN DEFAULT FALSE,
+    Project_Id                 INT(11),
     FOREIGN KEY (Student_Id) REFERENCES Student (Student_Id),
     FOREIGN KEY (Project_Id) REFERENCES Project (Project_Id)
 );
@@ -110,15 +104,3 @@ CREATE TABLE AvailableTime (
     FOREIGN KEY (Project_Id) REFERENCES Project (Project_Id),
     FOREIGN KEY (Student_Id) REFERENCES Student (Student_Id)
 );
-
-/*
-CREATE TABLE TeamManagesProject (
-    Id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    Team_Id INT(11),
-    Project_Id INT(11),
-    FOREIGN KEY (Team_Id) REFERENCES Team(Team_Id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (Project_Id) REFERENCES Project(Project_Id)
-        ON DELETE CASCADE ON UPDATE CASCADE
-);*/
-
