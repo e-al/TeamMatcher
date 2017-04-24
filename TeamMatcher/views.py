@@ -195,8 +195,8 @@ def viewprofile():
             projects = Project.get_for_student(username)
             projects_list = Project.get_created_by_student_user(session['username'],username)
             skills = Student.getSkills(username)
-            return render_template('viewprofile.html', error=None, info=info,
-                                   projects=projects_list, projects_u = projects, skills = skills)
+            return render_template('viewprofile.html', error=None, info=info, projects=projects_list, projects_u = projects, skills = skills)
+
     return redirect(url_for('login'))
 
 @app.route('/viewproject', methods=['POST', 'GET'])
