@@ -1,5 +1,6 @@
 from flask import Flask
 from flaskext.mysql import MySQL
+from flask_socketio import SocketIO
 import TeamMatcher.default_config
 
 app = Flask(__name__, instance_relative_config=True)
@@ -11,6 +12,9 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 mysql = MySQL()
 mysql.init_app(app)
+
+socketio = SocketIO()
+socketio.init_app(app)
 
 def init_db():
     """TODO: Need to verify if this works"""
