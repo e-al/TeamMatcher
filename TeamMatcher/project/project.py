@@ -130,10 +130,10 @@ class Project(object):
         db = mysql.get_db()
         cur = db.cursor()
         cur.execute("""
-            SELECT Name, Description, Max_Capacity, Status, P.Project_Id
-             FROM Project P, StudentPartOfProject S
-             WHERE S.Student_Id =
-                 (SELECT Student_Id FROM Student WHERE Email=%s)
+            SELECT Name, Description, Max_Capacity, Status, Project_Id
+             FROM Project
+             WHERE Project_Id in (Select Project_Id FROM StudentPartOfProject WHERE Student_Id =
+                 (SELECT Student_Id FROM Student WHERE Email=%s))
         """, (username,))
 
         #TODO: this is not good if we have a lot of projects, change to range
