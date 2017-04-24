@@ -48,26 +48,90 @@ $(document).ready(function(){ /*code here*/ })
 
 		</div>
 	</form>
+	{% for skill in profSkills %}
+	<label class="control-label col-sm-3">{{skill['name']}}</label><br>
+	<form action="/setSkill?" method="get" id="{{skill['name']}}Form"><span>
+		<select id="{{skill['name']}}"  name="level" class="form-control"	>
+			<option disabled >Choose here</option>
+			<option value="0" >None</option>
+			<option value="1">Intro</option>
+			<option value="2">Competent</option>
+			<option value="3">Proficient</option>
+			<option value="4">Expert</option>
+		</select>
+		<input type="text" value="{{info['email']}}" name="user" style="display:none">
+		<input type="text" value="{{skill['id']}}" name="skill" style="display:none">
+		<input type="submit" value="Set" />
+	</span></form>
+     {% endfor %}
+
+<h1>Add Skills</h1>
+    <input type ="text" id = "skillSearchInput" onkeyup="searchSkills()" placeholder="Search for skills...">
+    <ul id="skillUL">
+
+     {% for skill in skills %}
+      <li><a href = "/addSkillPerson?skill={{skill['id']}}&user={{info['email']}}">{{ skill['name'] }}</a></li>
+     {% endfor %}
+    </ul>
+ <form class="form-horizontal" role="form" action="/createSkill" method="get">
+     <div class="form-group">
+			<label class="control-label col-sm-3">Create a Skill</label>
+         <div class="form-group">
+			<label for="user" class="col-sm-3 control-label" style="display:none">Project Id</label>
+			<div class="col-sm-9">
+				<input type="text" name="user" id="user" placeholder="Project Id" class="form-control" autofocus style="display:none" value="{{info['email']}}">
+			</div>
+		</div>
+
+			<div class="col-sm-6">
+						<input type="text" name="skill" id="skills" placeholder="Skill" class="form-control">
+			</div>
+		</div>
+       <input type="submit" value="Create Skill" />
+ </form>
+
 	<script>
 
 	function setSelectedIndex(s, v) {
-
-    for ( var i = 0; i < s.options.length; i++ ) {
-
-        if ( s.options[i].value == v ) {
-
-            s.options[i].selected = true;
-
-            return;
-
-        }
-
-    }
-
+    	for ( var i = 0; i < s.options.length; i++ ) {
+        	if ( s.options[i].value == v ) {
+            	s.options[i].selected = true;
+            	return;
+        	}
+    	}
 	}
 
 	setSelectedIndex(document.getElementById('year'),"{{info.year}}");
 
+	var pskills = {{profSkills|tojson|safe}}
+
+
+
+	for(var x = 0; x<2; x++)
+	{
+		id = pskills[x].name;
+		level = pskills[x].level.toString();
+		setSelectedIndex(document.getElementById(id),level);
+	}
+
+
+	function searchSkills(){
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('skillSearchInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById('skillUL');
+    li = ul.getElementsByTagName('li');
+
+    for(i = 0 ; i < li.length; i++)
+    {
+      a = li[i].getElementsByTagName("a")[0];
+      if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
 </script><!-- /form -->
 </div> <!-- ./container -->
 

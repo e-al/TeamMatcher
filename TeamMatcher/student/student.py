@@ -130,15 +130,78 @@ class Student(object):
 
     @staticmethod
     def update_skill(username, skill, level):
-        pass
+       db = mysql.get_db()
+       cur = db.cursor()
+       cur.execute("""
+           UPDATE StudentHasSkill
+           SET Skill_Level = %s
+           WHERE Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s) AND Skill_Id = %s
+       """, (level,username,skill))
+       cur.execute("""
+           SELECT Student_Id FROM Student WHERE Email=%s
+       """, (username,))
+       db.commit()
+       return cur.fetchone()
+
 
     @staticmethod
     def remove_skill(username, skill):
-        pass
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            DELETE FROM StudentHasSkill
+            WHERE Skill_Id = %s
+            AND Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s)
+        """, (skill, username,))
+        db.commit()
 
     @staticmethod
     def add_skill(username, skill, level):
-        pass
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            INSERT INTO StudentHasSkill(Student_Id, Skill_Id, Skill_Level)
+            VALUES ((SELECT Student_Id FROM Student WHERE Email=%s), %s, %s)
+        """, (username, skill,level,))
+        db.commit()
 
+    @staticmethod
+    def getSkills(username):
+       db = mysql.get_db()
+       cur = db.cursor()
+       cur.execute("""
+           SELECT S.Name, P.Skill_Level, P.Skill_Id
+           FROM Skill S, StudentHasSkill P
+           WHERE S.Skill_Id in (SELECT Skill_Id From StudentHasSkill where Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s))
+           AND P.Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s)
+           AND P.Skill_Id = S.Skill_Id
+       """, (username,username,))
+       tups = cur.fetchall()
+       return [
+           {'name' : tup[0],
+            'level' : tup[1],
+            'id' : tup[2]}
+            for tup in tups
+        ]
 
+    @staticmethod
+    def getAllSkills(username):
+       db = mysql.get_db()
+       cur = db.cursor()
+       cur.execute("""
+           SELECT Name, Skill_Id
+           FROM Skill
+           WHERE Skill_Id NOT in (SELECT Skill_Id From StudentHasSkill where Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s))
+       """, (username,))
 
+       #TODO: this is not good if we have a lot of projects, change to range
+       tups = cur.fetchall()
+       if tups is None:
+          return
+       res = []
+
+       for tup in tups:
+          res.append({'name': tup[0],
+                      'id': tup[1]})
+
+       return res

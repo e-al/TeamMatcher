@@ -77,6 +77,14 @@ def addSkillProj():
     url = "/editproject?proj="+ id
     return redirect(url)
 
+@app.route('/addSkillPerson')
+def addSkillPerson():
+    skill = request.args.get('skill')
+    user = request.args.get('user')
+    Student.add_skill(user,skill,0)
+    url = "/profile"
+    return redirect(url)
+
 @app.route('/removeprojpart')
 def removeprojpart():
     username = request.args.get('user')
@@ -93,6 +101,14 @@ def removeprojskill():
     url = "/editproject?proj="+ id
     return redirect(url)
 
+@app.route('/removeUserSkill')
+def removeUserSkill():
+    skill = request.args.get('skill')
+    user = request.args.get('user')
+    Student.remove_skill(user,skill)
+    url = "/profile"
+    return redirect(url)
+
 @app.route('/createSkill')
 def createSkill():
     skill = request.args.get('skill')
@@ -101,6 +117,16 @@ def createSkill():
     Project.addSkillToProject(id,skill_id)
     url = "/editproject?proj="+ id
     return redirect(url)
+
+@app.route('/setSkill')
+def setSkill():
+    skill = request.args.get('skill')
+    user = request.args.get('user')
+    level = request.args.get('level')
+    Student.update_skill(user,skill,level)
+    url = "/profile"
+    return redirect(url)
+
 
 @app.route('/addproject', methods=['POST', 'GET'])
 def addproject():
@@ -150,7 +176,9 @@ def profile():
         username = session['username']
         if request.method == 'GET':
             info = Student.retrieve_info(username)
-            return render_template('profile.html', error=None, info=info)
+            skills = Student.getAllSkills(username)
+            profSkills = Student.getSkills(username)
+            return render_template('profile.html', error=None, info=info, skills = skills , profSkills = profSkills)
         if request.method == 'POST':
             Student.update_info(username, **request.form)
             return json.dumps({'success': True}), 200, \
@@ -166,8 +194,9 @@ def viewprofile():
             info = Student.retrieve_info(username)
             projects = Project.get_for_student(username)
             projects_list = Project.get_created_by_student_user(session['username'],username)
+            skills = Student.getSkills(username)
             return render_template('viewprofile.html', error=None, info=info,
-                                   projects=projects_list, projects_u = projects)
+                                   projects=projects_list, projects_u = projects, skills = skills)
     return redirect(url_for('login'))
 
 @app.route('/viewproject', methods=['POST', 'GET'])
