@@ -4,6 +4,8 @@
     <div class="top-pad">
         <h1>Search Projects</h1>
         <input type="text" id="projectSearchInput" onkeyup="searchProj()" placeholder="Search for projects...">
+        <input type="radio" name="type" id="nameCheck" value="Name" checked/>Name
+        <input type="radio" name="type" id="skillCheck" value="Skill" />Skill
             <table class="table table-hover" id="projUL">
                 <thead>
                 <tr>
@@ -26,19 +28,49 @@
             </table>
     </div>
     <script>
+
+        projSkills = {{projSkills|tojson|safe}}
+
         function searchProj() {
             var input, filter, ul, li, a, i;
             input = document.getElementById('projectSearchInput');
             filter = input.value.toUpperCase();
             ul = document.getElementById('projUL');
             li = ul.getElementsByTagName('tr');
-
-            for (i = 1; i < li.length; i++) {
-                a = li[i].getElementsByTagName("td")[0].getElementsByTagName("a")[0];
-                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
+            type = document.getElementById('nameCheck').checked
+            if(type)
+            {
+                for (i = 1; i < li.length; i++) {
+                    a = li[i].getElementsByTagName("td")[0].getElementsByTagName("a")[0];
+                    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = "";
+                    } else {
+                        li[i].style.display = "none";
+                    }
+                }
+            }
+            else
+            {
+                for (i = 1; i < li.length; i++) {
+                    if(filter == "")
+                    {
+                        li[i].style.display = "";
+                        continue;
+                    }
+                    a = li[i].getElementsByTagName("td")[0].getElementsByTagName("a")[0];
                     li[i].style.display = "none";
+                    skills = projSkills[a.innerHTML];
+                    if(skills){
+                        skills = [].concat( skills );
+                        for(var x = 0; x<skills.length; x++){
+                            if (skills[x].toUpperCase().indexOf(filter) > -1) {
+                                li[i].style.display = "";
+                                break;
+                            } else {
+                                li[i].style.display = "none";
+                            }
+                        }
+                    }
                 }
             }
         }

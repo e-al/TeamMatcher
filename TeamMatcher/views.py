@@ -58,7 +58,8 @@ def searchteam():
 @app.route('/searchproject')
 def searchproject():
     info = Project.get_all()
-    return render_template('searchproject.html', info=info)
+    projSkills = Project.get_all_Proj_Skills()
+    return render_template('searchproject.html', info=info, projSkills=projSkills)
 
 
 @app.route('/addToProject')
