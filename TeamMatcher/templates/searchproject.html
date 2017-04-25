@@ -20,7 +20,7 @@
                     <tr>
                         <td><a href="/viewproject?proj={{ project['id'] }}">{{ project['name'] }}</a></td>
                         <td>{{ project['max_cap'] }}</td>
-                        <td>{{ project['desc'] }}</td>
+                        <td style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:740px;display:inline-block">{{ project['desc']}}</td>
                         <th>{{ project['status'] }}</th>
                     </tr>
                 {% endfor %}
