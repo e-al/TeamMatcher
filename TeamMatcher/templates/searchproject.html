@@ -1,33 +1,46 @@
 {% extends 'home.html' %}
- 
+
 {% block container %}
-  <div class="top-pad">
-    <h1>Search Projects</h1>
-    <input type ="text" id = "projectSearchInput" onkeyup="searchProj()" placeholder="Search for projects...">
-    <ul id="projUL">
+    <div class="top-pad">
+        <h1>Search Projects</h1>
+        <input type="text" id="projectSearchInput" onkeyup="searchProj()" placeholder="Search for projects...">
+            <table class="table table-hover" id="projUL">
+                <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Max. Capacity</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for project in info %}
+                    <tr>
+                        <td><a href="/viewproject?proj={{ project['id'] }}">{{ project['name'] }}</a></td>
+                        <td>{{ project['max_cap'] }}</td>
+                        <td>{{ project['desc'] }}</td>
+                        <th>{{ project['status'] }}</th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    </div>
+    <script>
+        function searchProj() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById('projectSearchInput');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById('projUL');
+            li = ul.getElementsByTagName('tr');
 
-     {% for project in info %}
-      <li><a href = "/viewproject?proj={{project['id']}}">{{ project['name'] }}</a></li>
-     {% endfor %}
-    </ul>
-  </div>
-<script>
-  function searchProj(){
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('projectSearchInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById('projUL');
-    li = ul.getElementsByTagName('li');
-
-    for(i = 0 ; i < li.length; i++)
-    {
-      a = li[i].getElementsByTagName("a")[0];
-      if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
-      }
-    }
-  }
-</script>
+            for (i = 1; i < li.length; i++) {
+                a = li[i].getElementsByTagName("td")[0].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 {% endblock %}

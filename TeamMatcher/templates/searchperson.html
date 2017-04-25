@@ -1,33 +1,48 @@
 {% extends 'home.html' %}
- 
+
 {% block container %}
-  <div class="top-pad">
-    <h1>Search People</h1>
-    <input type ="text" id = "peopleSearchInput" onkeyup="searchpeople()" placeholder="Search for projects...">
-    <ul id="peopleUL">
+    <div class="top-pad">
+        <h1>Search People</h1>
+        <input type="text" id="peopleSearchInput" onkeyup="searchpeople()" placeholder="Search for projects...">
+        <ul id="peopleUL">
+            <table class="table table-hover" id="peopleUL">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Year</th>
+                    <th>Email</th>
+                    <th>School</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for person in info %}
+                    <tr>
+                        <td><a href="/viewprofile?user={{ person['email'] }}">{{ person['name'] }}</a></td>
+                        <td>{{ person['year'] }}</td>
+                        <td>{{ person['email'] }}</td>
+                        <th>{{ person['school'] }}</th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </ul>
+    </div>
+    <script>
+        function searchpeople() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById('peopleSearchInput');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById('peopleUL');
+            li = ul.getElementsByTagName('tr');
 
-     {% for person in info %}
-      <li><a href = "/viewprofile?user={{person['email']}}">{{ person['name'] }}</a></li>
-     {% endfor %}
-    </ul>
-  </div>
-<script>
-  function searchpeople(){
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('peopleSearchInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById('peopleUL');
-    li = ul.getElementsByTagName('li');
-
-    for(i = 0 ; i < li.length; i++)
-    {
-      a = li[i].getElementsByTagName("a")[0];
-      if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
-      }
-    }
-  }
-</script>
+            for (i = 1; i < li.length; i++) {
+                a = li[i].getElementsByTagName("td")[0].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 {% endblock %}
