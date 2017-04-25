@@ -58,7 +58,7 @@ $(document).ready(function(){ /*code here*/ })
 	 	<tr>
         <td>{{ project['name'] }}</td>
         <td>{{ project['max_cap'] }}</td>
-        <td>{{ project['desc'] }}</td>
+        <td style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:740px;display:inline-block">{{ project['desc']}}</td>
         <th>{{ project['status'] }}</th>
         <!-- href="/{{ project. name }}_remove"
         	Could use sth like this to specify a project-->
@@ -132,7 +132,7 @@ $(document).ready(function(){ /*code here*/ })
 
 
 
-	for(var x = 0; x<2; x++)
+	for(var x = 0; x<pskills.length; x++)
 	{
 		id = pskills[x].name;
 		level = pskills[x].level.toString();
