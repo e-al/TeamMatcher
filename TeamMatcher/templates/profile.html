@@ -38,11 +38,6 @@ $(document).ready(function(){ /*code here*/ })
 						<input type="number" name="gpa" step="0.01" id="gpa" placeholder="GPA" value="{{info.gpa}}" class="form-control">
 			</div>
 
-			<label class="control-label col-sm-3">Skills</label>
-			<div class="col-sm-9">
-					<input type="text" name="skill" id="skill" placeholder="Skills" class="form-control">
-			</div>
-
 			<div class="col-sm-9 col-sm-offset-3">
 				<button id="updatestudentinfo" class="btn btn-primary btn-block">Update</button>
 
@@ -73,11 +68,10 @@ $(document).ready(function(){ /*code here*/ })
       <li><a href = "/addSkillPerson?skill={{skill['id']}}&user={{info['email']}}">{{ skill['name'] }}</a></li>
      {% endfor %}
     </ul>
- <form class="form-horizontal" role="form" action="/createSkill" method="get">
+ <form class="form-horizontal" role="form" action="/createSkillUser" method="get">
      <div class="form-group">
 			<label class="control-label col-sm-3">Create a Skill</label>
          <div class="form-group">
-			<label for="user" class="col-sm-3 control-label" style="display:none">Project Id</label>
 			<div class="col-sm-9">
 				<input type="text" name="user" id="user" placeholder="Project Id" class="form-control" autofocus style="display:none" value="{{info['email']}}">
 			</div>

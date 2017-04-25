@@ -57,6 +57,23 @@
                 </tbody>
               </table>
         </div>
+
+        <label for="SkillsTable" class="col-sm-3 control-label">Project Skills</label>
+              <table class="table table-hover" id="SkillsTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for skill in projSkills %}
+                  <tr>
+                    <td>{{ skill['name'] }}</td>
+
+                 {% endfor %}
+                 </tr>
+                </tbody>
+              </table>
     </form>
   </div>
 {% endblock %}

@@ -91,6 +91,19 @@ $(document).ready(function(){ /*code here*/ })
      {% endfor %}
     </tbody>
   </table>
+	{% for skill in profSkills %}
+	<label class="control-label col-sm-3">{{skill['name']}}</label><br>
+	<form action="/setSkill?" method="get" id="{{skill['name']}}Form"><span>
+		<select id="{{skill['name']}}"  name="level" class="form-control" disabled	>
+			<option disabled >Choose here</option>
+			<option value="0" >None</option>
+			<option value="1">Intro</option>
+			<option value="2">Competent</option>
+			<option value="3">Proficient</option>
+			<option value="4">Expert</option>
+		</select>
+	</span></form>
+     {% endfor %}
 	</form>
 </div>
 
@@ -114,6 +127,17 @@ $(document).ready(function(){ /*code here*/ })
 
 	setSelectedIndex(document.getElementById('year'),"{{info.year}}");
 
+
+	var pskills = {{profSkills|tojson|safe}}
+
+
+
+	for(var x = 0; x<2; x++)
+	{
+		id = pskills[x].name;
+		level = pskills[x].level.toString();
+		setSelectedIndex(document.getElementById(id),level);
+	}
 </script><!-- /form -->
 </div> <!-- ./container -->
 

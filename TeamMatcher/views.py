@@ -118,6 +118,14 @@ def createSkill():
     url = "/editproject?proj="+ id
     return redirect(url)
 
+@app.route('/createSkillUser')
+def createSkillUser():
+    skill = request.args.get('skill')
+    skill_id = Project.createSkill(skill)
+    Student.add_skill(session['username'],skill_id,0)
+    url = "/profile"
+    return redirect(url)
+
 @app.route('/setSkill')
 def setSkill():
     skill = request.args.get('skill')
@@ -195,7 +203,7 @@ def viewprofile():
             projects = Project.get_for_student(username)
             projects_list = Project.get_created_by_student_user(session['username'],username)
             skills = Student.getSkills(username)
-            return render_template('viewprofile.html', error=None, info=info, projects=projects_list, projects_u = projects, skills = skills)
+            return render_template('viewprofile.html', error=None, info=info, projects=projects_list, projects_u = projects, profSkills = skills)
 
     return redirect(url_for('login'))
 
@@ -206,8 +214,9 @@ def viewproject():
         if request.method == 'GET':
             info = Project.get_info(id)
             people = Project.get_participants(id)
+            projSkills = Project.get_Skills(id)
             return render_template('viewproject.html', error=None,
-                                   project=info, people=people)
+                                   project=info, people=people, projSkills = projSkills)
 
     return redirect(url_for('login'))
 
