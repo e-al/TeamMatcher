@@ -50,11 +50,6 @@ def projects():
                            projects=projects_list)
 
 
-@app.route('/searchteam')
-def searchteam():
-    return render_template('searchteam.html')
-
-
 @app.route('/searchproject')
 def searchproject():
     info = Project.get_all()
