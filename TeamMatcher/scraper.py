@@ -150,7 +150,7 @@ def scrape_skills(page):
         return None
     desc = soup.get_text().lower()
 
-    skills = ['php','java','c++','flask','python']
+    skills = ['php','java','c++','flask','python', 'js', 'javascript', 'ajax', 'ruby', 'html', 'css', 'c#', 'visual basic', 'vb', 'perl', 'swift', 'objective-c', 'mysql', 'pgsql', 'jquery', 'nodejs', 'mongodb', 'cpanel', 'github', 'git', 'android', 'ionic', 'ios', 'django']
     ret = []
     for skill in skills:
         if desc.find(skill) != -1:
@@ -217,16 +217,6 @@ def write_to_sql(db):
                       desc,
                       'Created',
                       node.get_members()[0]))
-        for member in node.get_members():
-            cur.execute("""
-                INSERT INTO StudentPartOfProject(
-                  Student_Id,
-                  Project_Id
-                )
-                VALUES((SELECT Student_Id FROM Student WHERE Email= %s LIMIT 1) , (SELECT Project_Id FROM Project WHERE Name = %s LIMIT 1))
-            """, (member,
-                  name
-            ))
         if node.get_skills() is not None:
             for skill in node.get_skills():
                 cur.execute("""
@@ -243,6 +233,29 @@ def write_to_sql(db):
                 """, (name,
                       skill
                 ))
+        for member in node.get_members():
+            cur.execute("""
+                INSERT INTO StudentPartOfProject(
+                  Student_Id,
+                  Project_Id
+                )
+                VALUES((SELECT Student_Id FROM Student WHERE Email= %s LIMIT 1) , (SELECT Project_Id FROM Project WHERE Name = %s LIMIT 1))
+            """, (member,
+                  name
+            ))
+            if node.get_skills() is not None:
+                for skill in node.get_skills():
+                    cur.execute("""
+                        INSERT INTO StudentHasSkill(
+                          Student_Id,
+                          Skill_Id,
+                          Skill_Level
+                        )
+                        VALUES((SELECT Student_Id FROM Student WHERE Email= %s LIMIT 1) , (SELECT Skill_Id FROM Skill WHERE Name = %s LIMIT 1), 2)
+                    """, (member,
+                          skill,
+                    ))
+
         db.commit()
 
 

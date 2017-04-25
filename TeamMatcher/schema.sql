@@ -24,7 +24,7 @@ CREATE TABLE Student (
 CREATE TABLE Project (
     Project_Id         INT(11)               AUTO_INCREMENT PRIMARY KEY,
     Name               VARCHAR(100),
-    Description        VARCHAR(255),
+    Description        VARCHAR(5000),
     Max_Capacity       INT(11),
     Status             VARCHAR(100) NOT NULL DEFAULT 'Created',
     Team_Id            INT(11),
