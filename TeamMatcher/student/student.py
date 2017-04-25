@@ -166,6 +166,40 @@ class Student(object):
         db.commit()
 
     @staticmethod
+    def get_all_People_Skills():
+        """Retrieve all projects from the database
+
+        :returns A list of dictionaries describing project properties
+        """
+
+        db = mysql.get_db()
+        cur = db.cursor()
+        cur.execute("""
+            SELECT P.Name, S.Name
+            FROM StudentHasSkill T, Student P, Skill S
+            Where P.Student_Id = T.Student_Id AND S.Skill_Id = T.Skill_Id
+            Order By P.Name
+        """)
+
+        #TODO: this is not good if we have a lot of projects, change to range
+        tups = cur.fetchall()
+        if tups is None:
+            return
+        res = {}
+        tres = []
+        p = tups[0][0]
+        for tup in tups:
+            if(tup[0]==p):
+                tres.append(tup[1])
+            else:
+                res.update({p: tres})
+                tres = []
+                p = tup[0]
+                tres.append(tup[1])
+        res.update({p: tres})
+        return res
+
+    @staticmethod
     def getSkills(username):
        db = mysql.get_db()
        cur = db.cursor()

@@ -228,7 +228,8 @@ def searchprofiles():
     if 'username' in session:
         if request.method == 'GET':
             info = Student.retrieve_all_info()
-            return render_template('searchperson.html', error=None, info=info)
+            peopleSkills = Student.get_all_People_Skills()
+            return render_template('searchperson.html', error=None, info=info, peopleSkills=peopleSkills)
 
     return redirect(url_for('login'))
 
