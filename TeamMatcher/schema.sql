@@ -40,7 +40,7 @@ CREATE TABLE ProjectCategory (
 
 CREATE TABLE Skill (
     Skill_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    Name     VARCHAR(100)
+    Name     VARCHAR(100)         UNIQUE
 );
 
 
