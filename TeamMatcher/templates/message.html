@@ -107,8 +107,11 @@
         input.value = "";
     }
 
-    socket.on('chat_message', function(data){
+    socket.on('message', function(data){
+
+        data = JSON.parse(data);
         if(room = data['room_id']){
+            var li = document.getElementById('messageList');
             var text = data['user'] + ":" + data['text'];
             var textnode = document.createTextNode(text);
             var node = document.createElement("div");
