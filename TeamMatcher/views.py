@@ -345,3 +345,13 @@ def message():
                                    active_room=room_id, user = session['username'])
     return redirect(url_for('index'))
 
+@app.route('/has_unread', methods=['GET', 'POST'])
+def has_unread():
+    if 'username' in session:
+        response = dict()
+        rooms_unread = Message.get_all_unread(session['username'])
+        response['rooms_unread'] = rooms_unread
+        return jsonify(response)
+
+    redirect(url_for('index'))
+
