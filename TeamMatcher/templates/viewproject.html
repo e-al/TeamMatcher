@@ -6,15 +6,15 @@
         <table class="table" id="peopleUL">
             <tbody>
             <tr>
-                <td><label for="name" class="col-sm-3 control-label">Project Name</label></td>
+                <th>Project Name</th>
                 <td>{{ project.name }}</td>
             </tr>
             <tr>
-                <td><label class="control-label col-sm-3">Max. number of participants</label></td>
+                <th>Max. number of participants</th>
                 <td>{{ project.max_cap }}</td>
             </tr>
             <tr>
-                <td><label for="desc" class="col-sm-3 control-label">Description</label></td>
+                <th>Description</th>
                 <td>{{ project.desc }}</td>
             </tr>
             </tbody>
@@ -60,7 +60,7 @@
         </table>
          <form class="form-horizontal" role="form" action="/message" method="get">
              <input type="text" value="{{project['id']}}" id="project_id" name="project_id" style="display:none">
-             <input type="submit" value="Start Chat"/>
+             <input type="submit" class="btn btn-primary"value="Start Chat"/>
          </form>
     </div>
 {% endblock %}

@@ -8,15 +8,15 @@
         <table class="table" id="peopleUL">
             <tbody>
             <tr>
-                <td><label for="name" class="col-sm-3 control-label">Name</label></td>
+                <th>Name</th>
                 <td>{{ info.name }}</td>
             </tr>
             <tr>
-                <td><label for="email" class="col-sm-3 control-label">Email</label></td>
+                <td>Email</td>
                 <td>{{ info.email }}</td>
             </tr>
             <tr>
-                <td><label for="year" class="col-sm-3 control-label">Year</label></td>
+                <td>Year</td>
                 <td>
                     <div class="col-sm-9">
                         <select id="year" disabled name="year" class="form-control">
@@ -108,7 +108,7 @@
 
      <form class="form-horizontal" role="form" action="/message" method="get">
          <input type="text" value="{{info['email']}}" id="user" name="user" style="display:none">
-         <input type="submit" value="Start Chat"/>
+         <input type="submit" class="btn btn-primary"value="Start Chat"/>
      </form>
 
     <script>
