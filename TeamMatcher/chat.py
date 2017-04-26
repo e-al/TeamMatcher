@@ -13,6 +13,7 @@ def handle_connect():
     """
 
     if 'username' in session:
+        print('Hello')
         username = session['username']
         rooms = Room.get_all_rooms(username)
         for room in rooms:

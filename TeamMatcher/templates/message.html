@@ -81,11 +81,12 @@
     </div>
 </div>
 <script>
+    var socket = io();
+
     function send(){
         var input = document.getElementById('message');
         var filter = input.value;
-        var socket = io()
-        socket.emit('chat_message', {{user}}, {{room_id}}, filter)
+        alert(filter);
     }
 
 
