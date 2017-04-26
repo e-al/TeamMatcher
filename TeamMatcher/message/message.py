@@ -119,8 +119,8 @@ class Message(object):
         cur.execute("""
             SELECT Room_Id, Last_Msg_Id
              FROM LastReadMessage
-             WHERE Last_MsgId <> Last_Read_Msg_Id
-             AND Student_Id = (SELECT FROM Student WHERE Email=%s)
+             WHERE Last_Msg_Id <> Last_Read_Msg_Id
+             AND Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s)
         """, (username,))
 
         tups = cur.fetchall()

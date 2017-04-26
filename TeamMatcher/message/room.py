@@ -192,7 +192,7 @@ class Room(object):
         cur = db.cursor()
 
         cur.execute("""
-            SELECT Room_Id, Room.Name
+            SELECT Room.Room_Id, Room.Name
             FROM RoomMember, Room
             WHERE Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s)
             AND RoomMember.Room_Id = Room.Room_Id

@@ -79,7 +79,7 @@ def getMeClusters(descriptions):
         print() #add whitespace
         print() #add whitespace
     
-    
+    frame.to_csv(path_or_buf='clusters.csv')
     return frame
 
 
