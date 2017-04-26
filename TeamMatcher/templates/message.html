@@ -15,6 +15,7 @@
     <li><a href="{{ url_for('searchprofiles') }}">Search Profiles</a></li>
     <li><a href="{{ url_for('searchproject') }}">Search Project</a></li>
     <li><a href="{{ url_for('message') }}">Messages</a></li>
+    <li><a href="/recommended">Recommend Projects</a></li>
 {% endblock %}
 
 {% block navbarright %}
@@ -58,10 +59,9 @@
                         {% for msg in history %}
                         <div class="lv-item media">
                             <div class="media-body">
-                                <div class="ms-item"><span class="glyphicon glyphicon-triangle-left"
-                                                           style="color:#000000;"></span> {{msg['user']}}: {{msg['text']}}
+                                <div class="ms-item"> {{msg['user']}}: {{msg['text']}}
                                 </div>
-                                <small class="ms-date"><span class="glyphicon glyphicon-time"></span>&nbsp; {{msg['ts']}}
+                                <small class="ms-date">&nbsp; {{msg['ts']}}
                                 </small>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="lv-footer ms-reply"><textarea id="message" rows="10" placeholder="Write messages..."></textarea>
-                        <button class="" onclick="send()" ><span class="glyphicon glyphicon-send"></span></button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="send()"><h5>Send</h5></button>
                     </div>
                 </div>
             </div>
