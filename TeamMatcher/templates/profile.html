@@ -2,145 +2,150 @@
 
 {% block container %}
 
-$(document).ready(function(){ /*code here*/ })
-<div class="top-pad">
+    $(document).ready(function(){ /*code here*/ })
+    <div class="top-pad">
 
-	<form class="form-horizontal">
-		<h2>Update Profile</h2>
-			<label for="name" class="col-sm-3 control-label">Name</label>
-			<div class="col-sm-9">
-				<input type="text" name="name" id="name" placeholder="Name" value="{{info.name}}" class="form-control" autofocus>
-			</div>
+        <form class="form-horizontal">
+            <h2>Update Profile</h2>
+            <label for="name" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+                <input type="text" name="name" id="name" placeholder="Name" value="{{ info.name }}" class="form-control"
+                       autofocus>
+            </div>
 
-			<label for="email" class="col-sm-3 control-label">Email</label>
-			<div class="col-sm-9">
-				<input type="email" name="email" disabled id="email" placeholder="Email" value="{{info.email}}" class="form-control">
-			</div>
+            <label for="email" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-9">
+                <input type="email" name="email" disabled id="email" placeholder="Email" value="{{ info.email }}"
+                       class="form-control">
+            </div>
 
-			<label for="year" class="col-sm-3 control-label">Year</label>
-			<div class="col-sm-9">
-				<select id="year"  name="year" class="form-control"	>
-					<option disabled >Choose here</option>
-					<option value="0" >Freshmen</option>
-					<option value="1">Sophomore</option>
-					<option value="2">Junior</option>
-					<option value="3">Senior</option>
-				</select>
-			</div>
+            <label for="year" class="col-sm-3 control-label">Year</label>
+            <div class="col-sm-9">
+                <select id="year" name="year" class="form-control">
+                    <option disabled>Choose here</option>
+                    <option value="0">Freshmen</option>
+                    <option value="1">Sophomore</option>
+                    <option value="2">Junior</option>
+                    <option value="3">Senior</option>
+                </select>
+            </div>
 
-			<label for="school" class="col-sm-3 control-label">School</label>
-			<div class="col-sm-9">
-				<input type="text" name="school" id="school" placeholder="School" value="{{info.school}}" class="form-control" autofocus>
-			</div>
+            <label for="school" class="col-sm-3 control-label">School</label>
+            <div class="col-sm-9">
+                <input type="text" name="school" id="school" placeholder="School" value="{{ info.school }}"
+                       class="form-control" autofocus>
+            </div>
 
-			<label class="control-label col-sm-3">GPA</label>
-			<div class="col-sm-9">
-						<input type="number" name="gpa" step="0.01" id="gpa" placeholder="GPA" value="{{info.gpa}}" class="form-control">
-			</div>
+            <label class="control-label col-sm-3">GPA</label>
+            <div class="col-sm-9">
+                <input type="number" name="gpa" step="0.01" id="gpa" placeholder="GPA" value="{{ info.gpa }}"
+                       class="form-control">
+            </div>
 
-			<div class="col-sm-9 col-sm-offset-3">
-				<button id="updatestudentinfo" class="btn btn-primary btn-block">Update</button>
+            <div class="col-sm-9 col-sm-offset-3">
+                <button id="updatestudentinfo" class="btn btn-primary btn-block">Update</button>
 
-		</div>
-	<h2>Skills</h2>
-	</form>
-	{% for skill in profSkills %}
-	<div class="row">
+            </div>
+            <h3>Skills</h3>
+        </form>
+        {% for skill in profSkills %}
+            <div class="row">
 
-	<form action="/setSkill?" method="get" id="{{skill['name']}}Form">
-		<label for="{{skill['name']}}Form" class="control-label col-sm-3">{{skill['name']}}</label>
-		<div class="col-sm-5">
-		<select id="{{skill['name']}}"  name="level" class="form-control"	>
-			<option disabled >Choose here</option>
-			<option value="0" >None</option>
-			<option value="1">Intro</option>
-			<option value="2">Competent</option>
-			<option value="3">Proficient</option>
-			<option value="4">Expert</option>
-		</select>
-		</div>
-		<input type="text" value="{{info['email']}}" name="user" style="display:none">
-		<input type="text" value="{{skill['id']}}" name="skill" style="display:none">
-		<div class="col-sm-4">
-		<input type="submit" value="Set" />
-		</div>
-	</form>
-	</div>
-     {% endfor %}
+                <form action="/setSkill?" method="get" id="{{ skill['name'] }}Form">
+                    <label for="{{ skill['name'] }}Form" class="control-label col-sm-3">{{ skill['name'] }}</label>
+                    <div class="col-sm-5">
+                        <select id="{{ skill['name'] }}" name="level" class="form-control">
+                            <option disabled>Choose here</option>
+                            <option value="0">None</option>
+                            <option value="1">Intro</option>
+                            <option value="2">Competent</option>
+                            <option value="3">Proficient</option>
+                            <option value="4">Expert</option>
+                        </select>
+                    </div>
+                    <input type="text" value="{{ info['email'] }}" name="user" style="display:none">
+                    <input type="text" value="{{ skill['id'] }}" name="skill" style="display:none">
+                    <div class="col-sm-4">
+                        <input type="submit" value="Set"/>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
 
-<div class="row">
-	<div class="col-sm-6">
-		<h2>Add Skills</h2>
-		<input type ="text" id = "skillSearchInput" onkeyup="searchSkills()" placeholder="Search for skills...">
-		<ul id="skillUL">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Add Skills</h3>
+                <input type="text" id="skillSearchInput" onkeyup="searchSkills()" placeholder="Search for skills...">
+                <ul id="skillUL">
 
-		 {% for skill in skills %}
-		  <li><a href = "/addSkillPerson?skill={{skill['id']}}&user={{info['email']}}">{{ skill['name'] }}</a></li>
-		 {% endfor %}
-		</ul>
-	</div>
-	<div class="col-sm-6">
-		<form class="form-horizontal" role="form" action="/createSkillUser" method="get">
-		 <div class="form-group">
-				<label class="control-label">Create a Skill</label>
-			 <div class="form-group">
-				<div class="col-sm-9">
-					<input type="text" name="user" id="user" placeholder="Project Id" class="form-control" autofocus style="display:none" value="{{info['email']}}">
-				</div>
-			</div>
+                    {% for skill in skills %}
+                        <li>
+                            <a href="/addSkillPerson?skill={{ skill['id'] }}&user={{ info['email'] }}">{{ skill['name'] }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <form class="form-horizontal" role="form" action="/createSkillUser" method="get">
+                    <div class="form-group">
+                        <h3>Create a Skill</h3>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="text" name="user" id="user" placeholder="Project Id" class="form-control"
+                                       autofocus style="display:none" value="{{ info['email'] }}">
+                            </div>
+                        </div>
 
-				<div class="col-sm-6">
-							<input type="text" name="skill" id="skills" placeholder="Skill" class="form-control">
-				</div>
-			</div>
-		   <input type="submit" value="Create Skill" />
-	 	</form>
-	</div>
-</div>
+                        <div class="col-sm-6">
+                            <input type="text" name="skill" id="skills" placeholder="Skill" class="form-control">
+                        </div>
+                    </div>
+                    <input type="submit" value="Create Skill"/>
+                </form>
+            </div>
+        </div>
 
-	<script>
+        <script>
 
-	function setSelectedIndex(s, v) {
-    	for ( var i = 0; i < s.options.length; i++ ) {
-        	if ( s.options[i].value == v ) {
-            	s.options[i].selected = true;
-            	return;
-        	}
-    	}
-	}
+            function setSelectedIndex(s, v) {
+                for (var i = 0; i < s.options.length; i++) {
+                    if (s.options[i].value == v) {
+                        s.options[i].selected = true;
+                        return;
+                    }
+                }
+            }
 
-	setSelectedIndex(document.getElementById('year'),"{{info.year}}");
+            setSelectedIndex(document.getElementById('year'), "{{info.year}}");
 
-	var pskills = {{profSkills|tojson|safe}}
-
-
-
-	for(var x = 0; x<pskills.length; x++)
-	{
-		id = pskills[x].name;
-		level = pskills[x].level.toString();
-		setSelectedIndex(document.getElementById(id),level);
-	}
+            var pskills =
+            {{profSkills|tojson|safe}}
 
 
-	function searchSkills(){
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('skillSearchInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById('skillUL');
-    li = ul.getElementsByTagName('li');
+            for (var x = 0; x < pskills.length; x++) {
+                id = pskills[x].name;
+                level = pskills[x].level.toString();
+                setSelectedIndex(document.getElementById(id), level);
+            }
 
-    for(i = 0 ; i < li.length; i++)
-    {
-      a = li[i].getElementsByTagName("a")[0];
-      if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
-      }
-    }
-  }
-</script><!-- /form -->
-</div> <!-- ./container -->
+
+            function searchSkills() {
+                var input, filter, ul, li, a, i;
+                input = document.getElementById('skillSearchInput');
+                filter = input.value.toUpperCase();
+                ul = document.getElementById('skillUL');
+                li = ul.getElementsByTagName('li');
+
+                for (i = 0; i < li.length; i++) {
+                    a = li[i].getElementsByTagName("a")[0];
+                    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = "";
+                    } else {
+                        li[i].style.display = "none";
+                    }
+                }
+            }
+        </script><!-- /form -->
+    </div> <!-- ./container -->
 
 {% endblock %}
