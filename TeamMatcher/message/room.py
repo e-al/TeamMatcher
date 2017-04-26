@@ -68,6 +68,17 @@ class Room(object):
         ]
 
         room_id = Room.add(tup[0], members)
+
+        cur.execute("""
+            INSERT INTO RoomToProject (
+                Room_Id,
+                Project_Id
+            )
+            VALUES (%s, %s)
+        """, (room_id, project_id))
+
+        db.commit()
+
         return room_id
 
 
