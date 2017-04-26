@@ -325,7 +325,7 @@ def message():
                 rooms = Room.get_all_rooms(username)
                 if len(rooms):
                     # use just a first room from the list
-                    room_id = rooms[0][0]
+                    room_id = rooms[0]['id']
 
             rooms = Room.get_all_rooms(username)
             if not rooms:

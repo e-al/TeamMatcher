@@ -37,7 +37,7 @@
                     {% for room in rooms %}
                     <div class="lv-item media active">
                         <div class="media-body">
-                            <div class="lv-title">{{room['name']}}</div>
+                            <div class="lv-title"><a href="/message?room_id={{room['id']}}" >{{room['name']}}</a></div>
                         </div>
                     </div>
                     {% endfor %}
@@ -107,8 +107,11 @@
         input.value = "";
     }
 
-    socket.on('chat_message', function(data){
+    socket.on('message', function(data){
+
+        data = JSON.parse(data);
         if(room = data['room_id']){
+            var li = document.getElementById('messageList');
             var text = data['user'] + ":" + data['text'];
             var textnode = document.createTextNode(text);
             var node = document.createElement("div");
