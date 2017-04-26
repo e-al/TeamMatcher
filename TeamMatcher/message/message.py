@@ -38,9 +38,9 @@ class Message(object):
                 Last_Read_Msg_Id
             )
             VALUES ((SELECT Student_Id FROM Student WHERE Email=%s), %s, %s, %s)
-            ON DUPLICATE KEY UPDATE Last_Msg_Id = %s
+            ON DUPLICATE KEY UPDATE Last_Msg_Id = %s, Last_Msg_Read_Id = %s
         """, (sender_username, recv_room_id, last_msg_id, last_msg_id,
-              last_msg_id))
+              last_msg_id, last_msg_id))
 
         db.commit()
 
