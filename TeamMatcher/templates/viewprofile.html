@@ -2,155 +2,141 @@
 
 {% block container %}
 
-$(document).ready(function(){ /*code here*/ })
-<div class="top-pad">
+    $(document).ready(function(){ /*code here*/ })
+    <div class="top-pad">
+        <h2>Profile</h2>
+        <table class="table" id="peopleUL">
+            <tbody>
+            <tr>
+                <td><label for="name" class="col-sm-3 control-label">Name</label></td>
+                <td>{{ info.name }}</td>
+            </tr>
+            <tr>
+                <td><label for="email" class="col-sm-3 control-label">Email</label></td>
+                <td>{{ info.email }}</td>
+            </tr>
+            <tr>
+                <td><label for="year" class="col-sm-3 control-label">Year</label></td>
+                <td>
+                    <div class="col-sm-9">
+                        <select id="year" disabled name="year" class="form-control">
+                            <option disabled>Choose here</option>
+                            <option value="0">Freshmen</option>
+                            <option value="1">Sophomore</option>
+                            <option value="2">Junior</option>
+                            <option value="3">Senior</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="school" class="col-sm-3 control-label">School</label></td>
+                <td>{{ info.school }}</td>
+            </tr>
+            <tr>
+                <td><label class="control-label col-sm-3">GPA</label></td>
+                <td>{{ info.gpa }}</td>
+            </tr>
+            </tbody>
+        </table>
 
-	<form class="form-horizontal">
-		<h2>Profile</h2>
-			<label for="name" class="col-sm-3 control-label">Name</label>
-			<div class="col-sm-9">
-				<input type="text" name="name" disabled id="name" placeholder="Name" value="{{info.name}}" class="form-control" autofocus>
-			</div>
+        <h2>Skills</h2>
+        {% for skill in profSkills %}
+            <div class="row">
+                <label for="{{ skill['name'] }}Form" class="control-label col-sm-3">{{ skill['name'] }}</label>
+                <div class="col-sm-5">
+                    <select disabled id="{{ skill['name'] }}" name="level" class="form-control">
+                        <option disabled>Choose here</option>
+                        <option value="0">None</option>
+                        <option value="1">Intro</option>
+                        <option value="2">Competent</option>
+                        <option value="3">Proficient</option>
+                        <option value="4">Expert</option>
+                    </select>
+                </div>
+            </div>
+        {% endfor %}
 
-			<label for="email" class="col-sm-3 control-label">Email</label>
-			<div class="col-sm-9">
-				<input type="email" name="email" disabled id="email" placeholder="Email" value="{{info.email}}" class="form-control">
-			</div>
-
-			<label for="year" class="col-sm-3 control-label">Year</label>
-			<div class="col-sm-9">
-				<select id="year" disabled name="year" class="form-control"	>
-					<option disabled >Choose here</option>
-					<option value="0" >Freshmen</option>
-					<option value="1">Sophomore</option>
-					<option value="2">Junior</option>
-					<option value="3">Senior</option>
-				</select>
-			</div>
-
-			<label for="school" class="col-sm-3 control-label">School</label>
-			<div class="col-sm-9">
-				<input type="text" disabled name="school" id="school" placeholder="School" value="{{info.school}}" class="form-control" autofocus>
-			</div>
-
-			<label class="control-label col-sm-3">GPA</label>
-			<div class="col-sm-9">
-						<input type="number" disabled name="gpa" step="0.01" id="gpa" placeholder="GPA" value="{{info.gpa}}" class="form-control">
-			</div>
-
-			<label class="control-label col-sm-3">Skills</label>
-			<div class="col-sm-9">
-					<input type="text" disabled name="skill" id="skill" placeholder="Skills" class="form-control">
-			</div>
-
-			<h2>{{info['username']}} Projects</h2>
-			<table class="table table-hover" id="UProjectTable">
-    <thead>
-      <tr>
-        <th>Project Name</th>
-        <th>Max. Capacity</th>
-        <th>Description</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-     {% for project in projects_u %}
-	 	<tr>
-        <td>{{ project['name'] }}</td>
-        <td>{{ project['max_cap'] }}</td>
-        <td style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:740px;display:inline-block">{{ project['desc']}}</td>
-        <th>{{ project['status'] }}</th>
-        <!-- href="/{{ project. name }}_remove"
+        <h2>{{ info['name'] }}'s Projects</h2>
+        <table class="table table-hover" id="UProjectTable">
+            <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Max. Capacity</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects_u %}
+                <tr>
+                    <td>{{ project['name'] }}</td>
+                    <td>{{ project['max_cap'] }}</td>
+                    <td style="text-overflow:ellipsis;overflow:hidden;width:300px;height:90px;display:inline-block">{{ project['desc'] }}</td>
+                    <th>{{ project['status'] }}</th>
+                    <!-- href="/{{ project. name }}_remove"
         	Could use sth like this to specify a project-->
-      </tr>
-     {% endfor %}
-    </tbody>
-  </table>
-		<h2>My Projects</h2>
-			<table class="table table-hover" id="ProjectTable">
-    <thead>
-      <tr>
-        <th>Project Name</th>
-        <th>Max. Capacity</th>
-        <th>Description</th>
-        <th>Status</th>
-		<th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-     {% for project in projects %}
-	 	<tr id="{{ info['email'] }}:{{project['id']}}">
-        <td>{{ project['name'] }}</td>
-        <td>{{ project['max_cap'] }}</td>
-        <td>{{ project['desc'] }}</td>
-        <th>{{ project['status'] }}</th>
-        <td class="addToProject"><a href="/addToProject?proj={{project['id']}}&user={{ info['email'] }}">add</a>
-        <!-- href="/{{ project. name }}_remove"
-        	Could use sth like this to specify a project-->
-      </tr>
-     {% endfor %}
-    </tbody>
-    </table>
-    </form>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <h2>Skills</h2>
-	{% for skill in profSkills %}
-	<div class="row">
+        <h2>My Projects</h2>
+        <table class="table table-hover" id="ProjectTable">
+            <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Max. Capacity</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr id="{{ info['email'] }}:{{ project['id'] }}">
+                    <td>{{ project['name'] }}</td>
+                    <td>{{ project['max_cap'] }}</td>
+                    <td style="text-overflow:ellipsis;overflow:hidden;width:300px;height:90px;display:inline-block">{{ project['desc'] }}</td>
+                    <th>{{ project['status'] }}</th>
+                    <td class="addToProject"><a href="/addToProject?proj={{ project['id'] }}&user={{ info['email'] }}">Add</a>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-	<form action="/setSkill?" method="get" id="{{skill['name']}}Form">
-		<label for="{{skill['name']}}Form" class="control-label col-sm-3">{{skill['name']}}</label>
-		<div class="col-sm-5">
-		<select disabled id="{{skill['name']}}"  name="level" class="form-control"	>
-			<option disabled >Choose here</option>
-			<option value="0" >None</option>
-			<option value="1">Intro</option>
-			<option value="2">Competent</option>
-			<option value="3">Proficient</option>
-			<option value="4">Expert</option>
-		</select>
-		</div>
-		<input type="text" value="{{info['email']}}" name="user" style="display:none">
-		<input type="text" value="{{skill['id']}}" name="skill" style="display:none">
-		<div class="col-sm-4">
-		</div>
-        </form>
-	</div>
-     {% endfor %}
+    <script>
 
-</div>
+        function setSelectedIndex(s, v) {
 
-	<script>
+            for (var i = 0; i < s.options.length; i++) {
 
-	function setSelectedIndex(s, v) {
+                if (s.options[i].value == v) {
 
-    for ( var i = 0; i < s.options.length; i++ ) {
+                    s.options[i].selected = true;
 
-        if ( s.options[i].value == v ) {
+                    return;
 
-            s.options[i].selected = true;
+                }
 
-            return;
+            }
 
         }
 
-    }
-
-	}
-
-	setSelectedIndex(document.getElementById('year'),"{{info.year}}");
+        setSelectedIndex(document.getElementById('year'), "{{info.year}}");
 
 
-	var pskills = {{profSkills|tojson|safe}}
+        var pskills =
+        {{profSkills|tojson|safe}}
 
 
-
-	for(var x = 0; x<pskills.length; x++)
-	{
-		id = pskills[x].name;
-		level = pskills[x].level.toString();
-		setSelectedIndex(document.getElementById(id),level);
-	}
-</script><!-- /form -->
-</div> <!-- ./container -->
+        for (var x = 0; x < pskills.length; x++) {
+            id = pskills[x].name;
+            level = pskills[x].level.toString();
+            setSelectedIndex(document.getElementById(id), level);
+        }
+    </script><!-- /form -->
+    </div> <!-- ./container -->
 
 {% endblock %}

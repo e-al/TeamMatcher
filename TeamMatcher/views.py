@@ -304,3 +304,9 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
+@app.route('/message')
+def message():
+    if 'username' in session:
+        return render_template('message.html')
+    return redirect(url_for('index'))
+

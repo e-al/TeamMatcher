@@ -79,7 +79,7 @@ class Project(object):
 
         #TODO: this is not good if we have a lot of projects, change to range
         tups = cur.fetchall()
-        if tups is None:
+        if not tups:
             return
         res = {}
         tres = []
