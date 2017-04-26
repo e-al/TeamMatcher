@@ -54,7 +54,7 @@ def projects():
 def searchproject():
     info = Project.get_all()
     projSkills = Project.get_all_Proj_Skills()
-    return render_template('searchproject.html', info=info, projSkills=projSkills)
+    return render_template('searchproject.html', place="Search", info=info, projSkills=projSkills)
 
 
 @app.route('/addToProject')
@@ -267,7 +267,7 @@ def recommended():
     proj = Student.getRecommended(session['username'])
     projSkills = Project.get_all_Proj_Skills()
     if proj:
-        return render_template('searchproject.html', info=proj, projSkills=projSkills)
+        return render_template('searchproject.html',place="Recommended", info=proj, projSkills=projSkills)
     else:
         return render_template('home.html')
 
