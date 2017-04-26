@@ -14,7 +14,7 @@
     </li>
     <li><a href="{{ url_for('searchprofiles') }}">Search Profiles</a></li>
     <li><a href="{{ url_for('searchproject') }}">Search Project</a></li>
-    <li><a href="{{ url_for('message') }}">Messages</a></li>
+    <li><a id='msg_header' href="{{ url_for('message') }}">Messages</a></li>
     <li><a href="/recommended">Recommend Projects</a>
 {% endblock %}
 
@@ -46,3 +46,7 @@
         </div>
     </div>
 {% endblock %}
+
+{% include "message_updater.html" %}
+
+

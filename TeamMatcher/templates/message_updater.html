@@ -1,1 +1,9 @@
-<script></script>
+<script src="https://cdn.socket.io/socket.io-1.7.2.js"></script>
+<script>
+    var socket = io();
+    socket.on('message', function (data) {
+        document.getElementById('msg_header').style.fontWeight = 'bolder';
+//        document.getElementById('msg_header').classList.add('pulsate');
+    });
+
+</script>
