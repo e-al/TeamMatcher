@@ -110,7 +110,7 @@
     socket.on('message', function(data){
 
         data = JSON.parse(data);
-        if(room = data['room_id']){
+        if(room == data['room_id']){
             var li = document.getElementById('messageList');
             var text = data['user'] + ":" + data['text'];
             var textnode = document.createTextNode(text);
