@@ -328,7 +328,8 @@ def message():
                     room_id = rooms[0][0]
 
             rooms = Room.get_all_rooms(username)
-
+            if not rooms:
+                rooms = []
             if room_id:
                 # 100 is a magic number, whatever
                 history = Message.get_history_for_room(room_id, 100)
@@ -336,10 +337,11 @@ def message():
             if history:
                 last_msg_id = history[:-1]['id']
                 Message.mark_message_read(last_msg_id, room_id, username)
-
+            else:
+                history = []
             rooms_unread = Message.get_all_unread(username)
             return render_template('message.html', history=history,
                                    rooms=rooms, rooms_unread=rooms_unread,
-                                   active_room=room_id)
+                                   active_room=room_id, user = session['username'])
     return redirect(url_for('index'))
 

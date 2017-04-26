@@ -36,7 +36,7 @@ class Room(object):
                     Student_Id
                 )
                 VALUES (%s, (SELECT Student_Id FROM Student WHERE Email=%s))
-            """, (room_id, members))
+            """, (room_id, members,))
 
             db.commit()
 
