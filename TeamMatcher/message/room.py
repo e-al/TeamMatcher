@@ -1,5 +1,6 @@
 from TeamMatcher import mysql
 from TeamMatcher.project.project import Project
+from TeamMatcher.message.message import Message
 
 class Room(object):
     """This is the proxy class to work with rooms relations"""
@@ -38,6 +39,8 @@ class Room(object):
                     )
                     VALUES (%s, (SELECT Student_Id FROM Student WHERE Email=%s))
                 """, (room_id, member,))
+
+                Message.send(member, room_id, "joined room")
 
             db.commit()
 
