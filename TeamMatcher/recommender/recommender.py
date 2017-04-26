@@ -134,7 +134,7 @@ def searchMeTeams(pastprojects=None,skills=None,interests=None):
     print()
     for i in bestclusters: 
         ret_id = ret_id+list(clusters.loc[clusters['cluster']==i]['project id'])
-    return ret_id[0:10]
+    return ret_id[0:10  ]
         
 def searchMeStudents(query,interests):
     query = [query]
