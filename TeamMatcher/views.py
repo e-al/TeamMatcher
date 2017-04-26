@@ -335,7 +335,7 @@ def message():
                 history = Message.get_history_for_room(room_id, 100)
 
             if history:
-                last_msg_id = history[:-1][0]['id']
+                last_msg_id = history[len(history) - 1]['id']
                 Message.mark_message_read(last_msg_id, room_id, username)
             else:
                 history = []
