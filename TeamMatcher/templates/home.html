@@ -15,7 +15,7 @@
     <li><a href="{{ url_for('searchprofiles') }}">Search Profiles</a></li>
     <li><a href="{{ url_for('searchproject') }}">Search Project</a></li>
     <li><a id='msg_header' href="{{ url_for('message') }}">Messages</a></li>
-    <li><a href="/recommended">Recommend Projects</a>
+    <li><a href="/recommended">Recommend Projects</a></li>
 {% endblock %}
 
 {% block navbarright %}
@@ -23,9 +23,9 @@
     <li><a href="logout">Log Out</a></li>
 
 {% endblock %}
-
-{% block container %}
     <div class="container">
+{% block container %}
+
 
         <div class="top-pad">
             <div class="well">
@@ -44,9 +44,9 @@
                 </h2>
             </div>
         </div>
-    </div>
-{% endblock %}
 
+{% endblock %}
+    </div>
 {% include "message_updater.html" %}
 
 
