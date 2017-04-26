@@ -35,7 +35,7 @@
                 </div>
                 <div class="listview lv-user m-t-20">
                     {% for room in rooms %}
-                    <div class="lv-item media active">
+                    <div class="lv-item media active" id="{{room['id']}}">
                         <div class="media-body">
                             <div class="lv-title"><a href="/message?room_id={{room['id']}}" >{{room['name']}}</a></div>
                         </div>
@@ -52,10 +52,6 @@
                                 <div class="line center"></div>
                                 <div class="line bottom"></div>
                             </div>
-                        </div>
-                        <div class="lvh-label hidden-xs">
-                            <span class="c-black">Ashwani Singh Yadav<span
-                                    style=" margin-left:8px; position:absolute; margin-top:12px;width: 8px;height: 8px;line-height: 8px; border-radius: 50%; background-color:#80d3ab;"></span></span>
                         </div>
                     </div>
                     <div class="lv-body" style="overflow:scroll; overflow-x: hidden; height:520px;" id="messageList">
@@ -85,6 +81,12 @@
     var socket = io();
     var user = {{user|tojson}};
     var room = {{active_room|tojson}};
+    var urooms = {{rooms_unread|tojson}};
+
+    for(var x = 0;x <urooms.length; x++)
+    {
+        document.getElementById(urooms[x]['room_id']).style.backgroundColor = "red";
+    }
 
     function send(){
         var input = document.getElementById('message');
@@ -126,8 +128,14 @@
             node.appendChild(node2);
             li.appendChild(node);
             input.value = "";
-            }
+        }
+        else
+        {
+            document.getElementById(data['room_id']).style.backgroundColor = "red";
+        }
+
     });
+
 
 
 
