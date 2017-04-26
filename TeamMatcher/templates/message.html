@@ -37,7 +37,7 @@
                     {% for room in rooms %}
                     <div class="lv-item media active">
                         <div class="media-body">
-                            <div class="lv-title">{{room['name']}}</div>
+                            <div class="lv-title"><a href="/message?room_id={{room['id']}}" >{{room['name']}}</a></div>
                         </div>
                     </div>
                     {% endfor %}
