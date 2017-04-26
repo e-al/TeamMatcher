@@ -90,11 +90,17 @@ $(document).ready(function(){ /*code here*/ })
       </tr>
      {% endfor %}
     </tbody>
-  </table>
+    </table>
+    </form>
+
+    <h2>Skills</h2>
 	{% for skill in profSkills %}
-	<label class="control-label col-sm-3">{{skill['name']}}</label><br>
-	<form action="/setSkill?" method="get" id="{{skill['name']}}Form"><span>
-		<select id="{{skill['name']}}"  name="level" class="form-control" disabled	>
+	<div class="row">
+
+	<form action="/setSkill?" method="get" id="{{skill['name']}}Form">
+		<label for="{{skill['name']}}Form" class="control-label col-sm-3">{{skill['name']}}</label>
+		<div class="col-sm-5">
+		<select disabled id="{{skill['name']}}"  name="level" class="form-control"	>
 			<option disabled >Choose here</option>
 			<option value="0" >None</option>
 			<option value="1">Intro</option>
@@ -102,9 +108,15 @@ $(document).ready(function(){ /*code here*/ })
 			<option value="3">Proficient</option>
 			<option value="4">Expert</option>
 		</select>
-	</span></form>
+		</div>
+		<input type="text" value="{{info['email']}}" name="user" style="display:none">
+		<input type="text" value="{{skill['id']}}" name="skill" style="display:none">
+		<div class="col-sm-4">
+		</div>
+        </form>
+	</div>
      {% endfor %}
-	</form>
+
 </div>
 
 	<script>

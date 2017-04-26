@@ -42,10 +42,14 @@ $(document).ready(function(){ /*code here*/ })
 				<button id="updatestudentinfo" class="btn btn-primary btn-block">Update</button>
 
 		</div>
+	<h2>Skills</h2>
 	</form>
 	{% for skill in profSkills %}
-	<label class="control-label col-sm-3">{{skill['name']}}</label><br>
-	<form action="/setSkill?" method="get" id="{{skill['name']}}Form"><span>
+	<div class="row">
+
+	<form action="/setSkill?" method="get" id="{{skill['name']}}Form">
+		<label for="{{skill['name']}}Form" class="control-label col-sm-3">{{skill['name']}}</label>
+		<div class="col-sm-5">
 		<select id="{{skill['name']}}"  name="level" class="form-control"	>
 			<option disabled >Choose here</option>
 			<option value="0" >None</option>
@@ -54,35 +58,45 @@ $(document).ready(function(){ /*code here*/ })
 			<option value="3">Proficient</option>
 			<option value="4">Expert</option>
 		</select>
+		</div>
 		<input type="text" value="{{info['email']}}" name="user" style="display:none">
 		<input type="text" value="{{skill['id']}}" name="skill" style="display:none">
+		<div class="col-sm-4">
 		<input type="submit" value="Set" />
-	</span></form>
+		</div>
+	</form>
+	</div>
      {% endfor %}
 
-<h1>Add Skills</h1>
-    <input type ="text" id = "skillSearchInput" onkeyup="searchSkills()" placeholder="Search for skills...">
-    <ul id="skillUL">
+<div class="row">
+	<div class="col-sm-6">
+		<h2>Add Skills</h2>
+		<input type ="text" id = "skillSearchInput" onkeyup="searchSkills()" placeholder="Search for skills...">
+		<ul id="skillUL">
 
-     {% for skill in skills %}
-      <li><a href = "/addSkillPerson?skill={{skill['id']}}&user={{info['email']}}">{{ skill['name'] }}</a></li>
-     {% endfor %}
-    </ul>
- <form class="form-horizontal" role="form" action="/createSkillUser" method="get">
-     <div class="form-group">
-			<label class="control-label col-sm-3">Create a Skill</label>
-         <div class="form-group">
-			<div class="col-sm-9">
-				<input type="text" name="user" id="user" placeholder="Project Id" class="form-control" autofocus style="display:none" value="{{info['email']}}">
+		 {% for skill in skills %}
+		  <li><a href = "/addSkillPerson?skill={{skill['id']}}&user={{info['email']}}">{{ skill['name'] }}</a></li>
+		 {% endfor %}
+		</ul>
+	</div>
+	<div class="col-sm-6">
+		<form class="form-horizontal" role="form" action="/createSkillUser" method="get">
+		 <div class="form-group">
+				<label class="control-label">Create a Skill</label>
+			 <div class="form-group">
+				<div class="col-sm-9">
+					<input type="text" name="user" id="user" placeholder="Project Id" class="form-control" autofocus style="display:none" value="{{info['email']}}">
+				</div>
 			</div>
-		</div>
 
-			<div class="col-sm-6">
-						<input type="text" name="skill" id="skills" placeholder="Skill" class="form-control">
+				<div class="col-sm-6">
+							<input type="text" name="skill" id="skills" placeholder="Skill" class="form-control">
+				</div>
 			</div>
-		</div>
-       <input type="submit" value="Create Skill" />
- </form>
+		   <input type="submit" value="Create Skill" />
+	 	</form>
+	</div>
+</div>
 
 	<script>
 
@@ -101,7 +115,7 @@ $(document).ready(function(){ /*code here*/ })
 
 
 
-	for(var x = 0; x<2; x++)
+	for(var x = 0; x<pskills.length; x++)
 	{
 		id = pskills[x].name;
 		level = pskills[x].level.toString();
