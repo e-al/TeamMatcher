@@ -3,6 +3,7 @@ from flask_socketio import join_room, leave_room, send, emit
 from TeamMatcher import socketio
 from TeamMatcher.message.message import Message
 from TeamMatcher.message.room import Room
+import json
 
 
 @socketio.on('connect')
@@ -13,11 +14,12 @@ def handle_connect():
     """
 
     if 'username' in session:
-        print('Hello')
         username = session['username']
         rooms = Room.get_all_rooms(username)
+        print("Trying to join rooms")
+        print(rooms)
         for room in rooms:
-            join_room(str(room))
+            join_room(str(room['id']))
 
 
 @socketio.on('disconnect')
@@ -45,5 +47,8 @@ def handle_chat_message_send(username, target_room, text):
     Message.send(username, int(target_room), text)
 
     data = {"user": username, "text": text, "room_id": target_room}
-    emit('chat_message', args=data, room=target_room, include_self=False)
+    print("sending to the room %s" % str(target_room))
+    # emit('chat_message', args=data, room=str(target_room), include_self=True)
+    print(json.dumps(data))
+    send(json.dumps(data), room=str(target_room), include_self=False)
 
