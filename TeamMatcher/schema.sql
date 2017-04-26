@@ -111,3 +111,58 @@ CREATE TABLE AvailableTime (
     FOREIGN KEY (Project_Id) REFERENCES Project (Project_Id) ON DELETE CASCADE,
     FOREIGN KEY (Student_Id) REFERENCES Student (Student_Id) ON DELETE CASCADE
 );
+
+
+-- Relationships for messaging --
+
+CREATE TABLE Room (
+    Room_Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255)
+);
+
+CREATE TABLE RoomMember (
+    Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Room_Id INT(11),
+    Student_Id INT(11),
+    FOREIGN KEY (Room_Id) REFERENCES Room (Room_Id) ON DELETE CASCADE,
+    FOREIGN KEY (Student_Id) REFERENCES Student (Student_Id) ON DELETE CASCADE
+);
+
+CREATE TABLE Message (
+    Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Recv_Room_Id INT(11),
+    Sender_Id INT(11),
+    Text VARCHAR(1000),
+    Ts TIMESTAMP,
+    FOREIGN KEY (Recv_Room_Id) REFERENCES Room (Room_Id) ON DELETE CASCADE,
+    FOREIGN KEY (Sender_Id) REFERENCES Student (Student_Id) ON DELETE CASCADE
+);
+
+CREATE TABLE LastReadMessage (
+    Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Student_Id INT(11),
+    Room_Id INT(11),
+    Last_Msg_Id INT(11),
+    Last_Read_Msg_Id INT(11),
+    FOREIGN KEY (Room_Id) REFERENCES Room (Room_Id) ON DELETE CASCADE,
+    FOREIGN KEY (Last_Msg_Id) REFERENCES Message (Id) ON DELETE CASCADE,
+    FOREIGN KEY (Last_Read_Msg_Id) REFERENCES Message (Id) ON DELETE CASCADE,
+    UNIQUE KEY (Student_Id, Room_Id)
+);
+
+CREATE TABLE RoomToProject (
+    Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Room_Id INT(11),
+    Project_Id INT(11),
+    FOREIGN KEY (Room_Id) REFERENCES Room (Room_Id) ON DELETE CASCADE,
+    FOREIGN KEY (Project_Id) REFERENCES Project (Project_Id) ON DELETE CASCADE,
+    UNIQUE KEY (Room_Id, Project_Id)
+);
+
+CREATE TABLE PrivateRoom (
+    Id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    Room_Id INT(11),
+    Combined_Users_Key VARCHAR(255),
+    FOREIGN KEY (Room_Id) REFERENCES Room (Room_Id) ON DELETE CASCADE,
+    UNIQUE KEY (Combined_Users_Key)
+);

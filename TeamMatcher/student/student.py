@@ -1,4 +1,7 @@
 from TeamMatcher import mysql
+from TeamMatcher.recommender.recommender import *
+from TeamMatcher.project.project import Project
+
 class Student(object):
     """This is the proxy class to work with student relation"""
 
@@ -239,3 +242,36 @@ class Student(object):
                       'id': tup[1]})
 
        return res
+
+    @staticmethod
+    def getRecommended(username):
+       db = mysql.get_db()
+       cur = db.cursor()
+       cur.execute("""
+           SELECT Name
+           FROM Skill
+           WHERE Skill_Id in (SELECT Skill_Id From StudentHasSkill where Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s))
+       """, (username,))
+       tups = cur.fetchall()
+       skills = ""
+       if tups:
+           for tup in tups:
+               skills+=tup[0]
+       cur = db.cursor()
+       cur.execute("""
+           SELECT Description
+           FROM Project
+           WHERE Project_Id in (SELECT Project_Id From StudentPartOfProject where Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s))
+       """, (username,))
+       tups = cur.fetchall()
+       proj = ""
+       if tups:
+           for tup in tups:
+               proj+=tup[0]
+       ids = searchMeTeams(pastprojects=proj,skills=skills)
+       ret = []
+       for id in ids:
+           ret.append(Project.get_info(int(id)))
+       ret = filter(None, ret)
+       return ret
+
