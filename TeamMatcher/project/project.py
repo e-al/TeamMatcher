@@ -1,4 +1,5 @@
 from TeamMatcher import mysql
+from TeamMatcher.recommender import recommender
 
 class Project(object):
     """This is the proxy class to work with student relation"""
@@ -142,3 +143,24 @@ class Project(object):
 
         #TODO: make sure we remove all references to this project as well
         db.commit()
+'''       
+    @staticmethod
+    def recommend_teams_for_student(username):
+        read from cluster pandas data frame from csv, 
+            return best matching teams for a student. 
+        
+        
+        #get_student_info
+        
+        project_infos = Project.get_for_student(username)
+        pastprojects = ''.join([info['desc'] for info in project_infos]) 
+        skills = 
+        interests = 
+        results = recommender.searchMeTeams(query)
+   
+             
+#    @staticmethod
+#    def recommend_teams(query):
+  '''      
+        
+        

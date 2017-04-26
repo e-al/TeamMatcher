@@ -10,7 +10,7 @@ config = {
     'download_url': 'https://github.com/e-al/TeamMatcher',
     'author_email': 'evchenk2@illinois.edu',
     'version': '0.1',
-    'install_requires': ['nose', 'flask', 'flask-mysql'],
+    'install_requires': ['nose', 'flask', 'flask-mysql','numpy','pandas','nltk','sklearn','scipy'],
     'packages': ['TeamMatcher'],
     'include_package_data': True,
     'scripts': [],

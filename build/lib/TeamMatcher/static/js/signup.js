@@ -1,0 +1,40 @@
+$(document).ready(function() {
+    $('#btnSignUp').click(function() {
+		
+        $.ajax({
+            url: '/signup',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+				if (response.redirect){
+                	window.location.href = response.redirect;
+				}
+				else{
+				    document.write(response['form'])
+                    console.log(response['form'])
+				}
+			}
+    });
+    });
+});
+
+$(document).ready(function() {
+    $('#btnLogin').click(function() {
+		
+        $.ajax({
+            url: '/login',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+				if (response.redirect){
+                	window.location.href = response.redirect;
+				}
+				else{
+                    document.write(response['form'])
+                    console.log(response['form'])
+				}
+			}
+            
+    });
+    });
+});
