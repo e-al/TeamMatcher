@@ -30,13 +30,14 @@ class Room(object):
             db = mysql.get_db()
             cur = db.cursor()
 
-            cur.executemany("""
-                INSERT INTO RoomMember (
-                    Room_Id,
-                    Student_Id
-                )
-                VALUES (%s, (SELECT Student_Id FROM Student WHERE Email=%s))
-            """, (room_id, members,))
+            for member in members:
+                cur.execute("""
+                    INSERT INTO RoomMember (
+                        Room_Id,
+                        Student_Id
+                    )
+                    VALUES (%s, (SELECT Student_Id FROM Student WHERE Email=%s))
+                """, (room_id, member,))
 
             db.commit()
 
