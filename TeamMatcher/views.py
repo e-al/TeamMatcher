@@ -262,6 +262,14 @@ def signUp():
     response['form'] = response_html
     return jsonify(response)
 
+@app.route('/recommended')
+def recommended():
+    proj = Student.getRecommended(session['username'])
+    projSkills = Project.get_all_Proj_Skills()
+    if proj:
+        return render_template('searchproject.html', info=proj, projSkills=projSkills)
+    else:
+        return render_template('home.html')
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():

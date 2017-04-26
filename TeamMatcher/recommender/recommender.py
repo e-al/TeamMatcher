@@ -1,26 +1,20 @@
 from __future__ import print_function
-import metapy
+import sys
+sys.path.append('/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages')
 import numpy as np
-import scipy as sci
 import pandas as pd
 import nltk
 import re
-import os
-import codecs
-from sklearn import feature_extraction
+
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-import matplotlib.pyplot as plt
 from nltk.stem.snowball import SnowballStemmer
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.cluster import KMeans
 from sklearn import mixture
-from sklearn.feature_extraction.text import CountVectorizer
 
 
 #projdesc = open('group1/group1.dat').read().splitlines()
 numclusters = 12
-vocabs = np.genfromtxt('vocab.nips.txt',dtype='str')
+vocabs = np.genfromtxt('TeamMatcher/recommender/vocab.nips.txt',dtype='str')
 stopwords = nltk.corpus.stopwords.words('english')
 
 def preprocess(descriptions):
@@ -28,7 +22,7 @@ def preprocess(descriptions):
     totalvocab_stemmed = []
     totalvocab_tokenized = []
     
-    for i in projdesc:
+    for i in descriptions:
         allwords_stemmed = tokenize_and_stem(i.decode('utf-8')) #for each item in 'synopses', tokenize/stem
         totalvocab_stemmed.extend(allwords_stemmed) #extend the 'totalvocab_stemmed' list
 
@@ -59,7 +53,7 @@ def getMeClusters(descriptions):
     
     clusters = em.predict(tfidf_matrix.toarray()).tolist()
 
-    projects = { 'project id': projid, 'project description': projdesc, 'cluster': clusters }
+    projects = { 'project id': projid, 'project description': descriptions, 'cluster': clusters }
 
     frame = pd.DataFrame(projects , columns = [ 'project id', 'cluster','project description'])
 
@@ -95,7 +89,7 @@ def searchMeTeams(pastprojects=None,skills=None,interests=None):
     if(pastprojects == None and skills == None and interests == None):
         return []
     
-    clusters = pd.read_csv('clusters.csv')
+    clusters = pd.read_csv('TeamMatcher/recommender/clusters.csv')
     
     if(pastprojects is None):
         pastprojects =['']
@@ -114,7 +108,7 @@ def searchMeTeams(pastprojects=None,skills=None,interests=None):
         
     ret_id = []
     
-    vocabs = np.genfromtxt('vocab.nips.txt',dtype='str')
+    vocabs = np.genfromtxt('TeamMatcher/recommender/vocab.nips.txt',dtype='str')
     allscores = []
     tfidf_vectorizer = TfidfVectorizer(max_df=1, max_features=200000,
                     min_df=0, stop_words=stopwords,
@@ -140,7 +134,7 @@ def searchMeTeams(pastprojects=None,skills=None,interests=None):
     print()
     for i in bestclusters: 
         ret_id = ret_id+list(clusters.loc[clusters['cluster']==i]['project id'])
-    return ret_id[0:5]
+    return ret_id[0:10]
         
 def searchMeStudents(query,interests):
     query = [query]
