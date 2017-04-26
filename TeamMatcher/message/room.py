@@ -192,14 +192,20 @@ class Room(object):
         cur = db.cursor()
 
         cur.execute("""
-            SELECT Room_Id
-            FROM RoomMember
+            SELECT Room_Id, Room.Name
+            FROM RoomMember, Room
             WHERE Student_Id = (SELECT Student_Id FROM Student WHERE Email=%s)
+            AND RoomMember.Room_Id = Room.Room_Id
         """, (username,))
 
         tups = cur.fetchall()
 
-        return [tup[0] for tup in tups]
+        return [
+            {
+                "id": tup[0],
+                "name": tup[1]}
+            for tup in tups
+        ]
 
 
 

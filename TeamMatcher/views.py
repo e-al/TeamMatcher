@@ -3,6 +3,8 @@ import json
 from TeamMatcher import app
 from TeamMatcher.student.student import Student
 from TeamMatcher.project.project import Project
+from TeamMatcher.message.room import Room
+from TeamMatcher.message.message import Message
 
 
 @app.route('/')
@@ -304,9 +306,40 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-@app.route('/message')
+@app.route('/message', methods=['POST', 'GET'])
 def message():
     if 'username' in session:
-        return render_template('message.html')
+        username = session['username']
+        if request.method == 'GET':
+            room_id = None
+            history = None
+            if 'room_id' in request.args:
+                room_id = request.args.get('room_id')
+            elif 'project_id' in request.args:
+                project_id = request.args.get('project_id')
+                room_id = Room.get_project_room(project_id)
+            elif 'user' in request.args:
+                target_username = request.args.get('user')
+                room_id = Room.get_private_room(username, target_username)
+            else:
+                rooms = Room.get_all_rooms(username)
+                if len(rooms):
+                    # use just a first room from the list
+                    room_id = rooms[0][0]
+
+            rooms = Room.get_all_rooms(username)
+
+            if room_id:
+                # 100 is a magic number, whatever
+                history = Message.get_history_for_room(room_id, 100)
+
+            if history:
+                last_msg_id = history[:-1]['id']
+                Message.mark_message_read(last_msg_id, room_id, username)
+
+            rooms_unread = Message.get_all_unread(username)
+            return render_template('message.html', history=history,
+                                   rooms=rooms, rooms_unread=rooms_unread,
+                                   active_room=room_id)
     return redirect(url_for('index'))
 

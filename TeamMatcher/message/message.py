@@ -84,7 +84,7 @@ class Message(object):
         cur = db.cursor()
 
         cur.execute("""
-            SELECT S.Email, Text, Ts
+            SELECT S.Email, Text, Ts, M.Id
              FROM Message M INNER JOIN Student S
              ON M.Sender_Id = S.Student_Id
              WHERE M.Recv_Room_Id = %s
@@ -97,7 +97,8 @@ class Message(object):
         return [
             {'user': tup[0],
              'text': tup[1],
-             'ts': tup[2]}
+             'ts': tup[2],
+             'id': tup[3]}
             for tup in tups
         ]
 
