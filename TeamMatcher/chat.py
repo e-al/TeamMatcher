@@ -44,6 +44,6 @@ def handle_chat_message_send(username, target_room, text):
     """
     Message.send(username, int(target_room), text)
 
-    data = {"user": username, "text": text}
+    data = {"user": username, "text": text, "room_id": target_room}
     emit('chat_message', args=data, room=target_room, include_self=False)
 
