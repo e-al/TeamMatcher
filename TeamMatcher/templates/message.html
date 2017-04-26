@@ -58,7 +58,7 @@
                                     style=" margin-left:8px; position:absolute; margin-top:12px;width: 8px;height: 8px;line-height: 8px; border-radius: 50%; background-color:#80d3ab;"></span></span>
                         </div>
                     </div>
-                    <div class="lv-body" id="ms-scrollbar2" style="overflow:scroll; overflow-x: hidden; height:520px;">
+                    <div class="lv-body" id="ms-scrollbar2" style="overflow:scroll; overflow-x: hidden; height:520px;" id="messageList">
                         {% for msg in history %}
                         <div class="lv-item media">
                             <div class="media-body">
@@ -80,13 +80,17 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.socket.io/socket.io-1.7.2.js"></script>
 <script>
     var socket = io();
+    var user = {{user|tojson}};
+    var room = {{active_room|tojson}};
 
     function send(){
         var input = document.getElementById('message');
         var filter = input.value;
-        alert(filter);
+        socket.emit('chat_message', user, room, filter);
+        
     }
 
 
