@@ -58,7 +58,7 @@
                                     style=" margin-left:8px; position:absolute; margin-top:12px;width: 8px;height: 8px;line-height: 8px; border-radius: 50%; background-color:#80d3ab;"></span></span>
                         </div>
                     </div>
-                    <div class="lv-body" id="ms-scrollbar2" style="overflow:scroll; overflow-x: hidden; height:520px;" id="messageList">
+                    <div class="lv-body" style="overflow:scroll; overflow-x: hidden; height:520px;" id="messageList">
                         {% for msg in history %}
                         <div class="lv-item media">
                             <div class="media-body">
@@ -90,8 +90,41 @@
         var input = document.getElementById('message');
         var filter = input.value;
         socket.emit('chat_message', user, room, filter);
-        
+        var li = document.getElementById('messageList');
+        var text = user + ":" + filter;
+        var textnode = document.createTextNode(text);
+        var node = document.createElement("div");
+        node.classList.add('lv-item');
+        node.classList.add('media');
+        var node2 = document.createElement("div");
+        node2.classList.add('media-body');
+        var node3 = document.createElement("div");
+        node3.classList.add('ms-item');
+        node2.appendChild(node3);
+        node3.appendChild(textnode);
+        node.appendChild(node2);
+        li.appendChild(node);
+        input.value = "";
     }
+
+    socket.on('chat_message', function(data){
+        if(room = data['room_id']){
+            var text = data['user'] + ":" + data['text'];
+            var textnode = document.createTextNode(text);
+            var node = document.createElement("div");
+            node.classList.add('lv-item');
+            node.classList.add('media');
+            var node2 = document.createElement("div");
+            node2.classList.add('media-body');
+            var node3 = document.createElement("div");
+            node3.classList.add('ms-item');
+            node2.appendChild(node3);
+            node3.appendChild(textnode);
+            node.appendChild(node2);
+            li.appendChild(node);
+            input.value = "";
+            }
+    });
 
 
 
