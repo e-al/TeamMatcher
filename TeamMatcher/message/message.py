@@ -60,10 +60,10 @@ class Message(object):
 
         cur.execute("""
             UPDATE LastReadMessage
-            SET Last_Read_Msg_Id = %s
+            SET Last_Read_Msg_Id = %s, Last_Msg_Id = %s
             WHERE Student_Id=(SELECT Student_Id FROM Student WHERE Email=%s)
             AND Room_Id = %s
-        """, (msg_id, username, room_id,))
+        """, (msg_id, msg_id, username, room_id,))
 
         db.commit()
 
