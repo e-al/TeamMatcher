@@ -29,10 +29,6 @@
         <div class="block-header"><h2></h2></div>
         <div class="card m-b-0" id="messages-main" style="box-shadow:0 0 40px 1px #c9cccd;">
             <div class="ms-menu" style="overflow:scroll; overflow-x: hidden;" id="ms-scrollbar">
-                <div class="ms-block">
-                    <div class="ms-user"><h5 class="q-title" align="center">
-                        Sachin Yadav <br/><b>5</b> New Messages</h5></div>
-                </div>
                 <div class="listview lv-user m-t-20">
                     {% for room in rooms %}
                     <div class="lv-item media active" id="{{room['id']}}">
